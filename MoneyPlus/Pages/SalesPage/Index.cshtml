@@ -1,0 +1,84 @@
+﻿@page
+@model MoneyPlus.Pages.SalesPage.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Sales[0].Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sales[0].Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sales[0].PaymentMethod)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sales[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sales[0].Asset)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sales[0].User)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sales[0].Payee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sales[0].Transaction)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sales[0].CategoryType)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Sales) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaymentMethod)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Asset)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Payee.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Transaction.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryType.Id)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

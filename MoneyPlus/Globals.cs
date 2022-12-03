@@ -12,3 +12,4 @@ global using Microsoft.EntityFrameworkCore;
 global using System.Diagnostics;
 global using MoneyPlus.Data;
 global using MoneyPlus.Data.Entities;
+global using Microsoft.AspNetCore.Mvc.Rendering;

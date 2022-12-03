@@ -1,0 +1,75 @@
+﻿@page
+@model MoneyPlus.Pages.SalesPage.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Sales</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Sales.Id" />
+            <div class="form-group">
+                <label asp-for="Sales.Date" class="control-label"></label>
+                <input asp-for="Sales.Date" class="form-control" />
+                <span asp-validation-for="Sales.Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Sales.Amount" class="control-label"></label>
+                <input asp-for="Sales.Amount" class="form-control" />
+                <span asp-validation-for="Sales.Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Sales.PaymentMethod" class="control-label"></label>
+                <input asp-for="Sales.PaymentMethod" class="form-control" />
+                <span asp-validation-for="Sales.PaymentMethod" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Sales.Description" class="control-label"></label>
+                <input asp-for="Sales.Description" class="form-control" />
+                <span asp-validation-for="Sales.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Sales.Asset" class="control-label"></label>
+                <input asp-for="Sales.Asset" class="form-control" />
+                <span asp-validation-for="Sales.Asset" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Sales.UserId" class="control-label"></label>
+                <select asp-for="Sales.UserId" class="form-control" asp-items="ViewBag.UserId"></select>
+                <span asp-validation-for="Sales.UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Sales.PayeeId" class="control-label"></label>
+                <select asp-for="Sales.PayeeId" class="form-control" asp-items="ViewBag.PayeeId"></select>
+                <span asp-validation-for="Sales.PayeeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Sales.TransactionId" class="control-label"></label>
+                <select asp-for="Sales.TransactionId" class="form-control" asp-items="ViewBag.TransactionId"></select>
+                <span asp-validation-for="Sales.TransactionId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Sales.CategoryTypeId" class="control-label"></label>
+                <select asp-for="Sales.CategoryTypeId" class="form-control" asp-items="ViewBag.CategoryTypeId"></select>
+                <span asp-validation-for="Sales.CategoryTypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
