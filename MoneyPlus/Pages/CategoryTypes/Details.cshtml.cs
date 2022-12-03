@@ -1,5 +1,6 @@
 ﻿namespace MoneyPlus.Pages.CategoryTypes;
 
+[Authorize]
 public class DetailsModel : PageModel
 {
     private readonly MoneyPlus.Data.ApplicationDbContext _context;

@@ -1,5 +1,6 @@
 ﻿namespace MoneyPlus.Pages.Wallets;
 
+[Authorize]
 public class EditModel : PageModel
 {
     private readonly MoneyPlus.Data.ApplicationDbContext _context;

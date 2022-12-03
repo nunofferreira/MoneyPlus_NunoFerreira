@@ -1,5 +1,6 @@
 ﻿namespace MoneyPlus.Pages.TransactionsPage;
 
+[Authorize]
 public class DeleteModel : PageModel
 {
     private readonly MoneyPlus.Data.ApplicationDbContext _context;

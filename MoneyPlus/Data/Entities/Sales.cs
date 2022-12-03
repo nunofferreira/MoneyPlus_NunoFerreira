@@ -6,7 +6,9 @@ public class Sales
     public DateTime Date { get; set; } = DateTime.UtcNow;
     public int Amount { get; set; }
     public string PaymentMethod { get; set; }
+    [MaxLength(150)]
     public string Description { get; set; }
+    [MaxLength(50)]
     public string? Asset { get; set; }
     public string UserId { get; set; }
     public IdentityUser User { get; set; }

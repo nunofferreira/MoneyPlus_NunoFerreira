@@ -1,5 +1,6 @@
 ﻿namespace MoneyPlus.Pages.TransactionsPage;
 
+[Authorize]
 public class IndexModel : PageModel
 {
     private readonly MoneyPlus.Data.ApplicationDbContext _context;
