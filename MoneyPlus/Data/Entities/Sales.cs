@@ -8,12 +8,12 @@ public class Sales
     public string PaymentMethod { get; set; }
     public string Description { get; set; }
     public string? Asset { get; set; }
-    public int UserId { get; set; }
+    public string UserId { get; set; }
     public IdentityUser User { get; set; }
     public int PayeeId { get; set; }
-    public Payee Payees { get; set; }
+    public Payee Payee { get; set; }
     public int? TransactionId { get; set; }
-    public Transaction Transactions { get; set; }
+    public Transaction Transaction { get; set; }
     public int CategoryTypeId { get; set; }
-    public CategoryType CategoryTipes { get; set; }
+    public CategoryType CategoryType { get; set; }
 }

@@ -9,5 +9,5 @@ public class Transaction
     public string TransctionType { get; set; } // Money, BitCoin, etc
     [MaxLength(100)]
     public int WalletId { get; set; }
-    public Wallet Wallets { get; set; }
+    public Wallet Wallet { get; set; }
 }
