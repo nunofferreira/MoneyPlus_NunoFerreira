@@ -1,6 +1,6 @@
 ﻿namespace MoneyPlus.Pages.CategoryTypes;
 
-[Authorize]
+//TODO[Authorize(Roles = "Admin")]
 public class CreateModel : PageModel
 {
     private readonly MoneyPlus.Data.ApplicationDbContext _context;
@@ -12,7 +12,7 @@ public class CreateModel : PageModel
 
     public IActionResult OnGet()
     {
-    ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id");
+    ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
         return Page();
     }
 

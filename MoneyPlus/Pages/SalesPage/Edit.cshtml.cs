@@ -26,11 +26,13 @@ public class EditModel : PageModel
             return NotFound();
         }
         Sales = sales;
-       ViewData["CategoryTypeId"] = new SelectList(_context.CategoryTypes, "Id", "Id");
-       ViewData["PayeeId"] = new SelectList(_context.Payees, "Id", "Id");
+       ViewData["CategoryTypeId"] = new SelectList(_context.CategoryTypes, "Id", "Name");
+       ViewData["PayeeId"] = new SelectList(_context.Payees, "Id", "Name");
        ViewData["TransactionId"] = new SelectList(_context.Transactions, "Id", "Id");
        ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
         return Page();
+
+        
     }
 
     // To protect from overposting attacks, enable the specific properties you want to bind to.

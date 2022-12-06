@@ -10,6 +10,7 @@ public class Sales
     public string Description { get; set; }
     [MaxLength(50)]
     public string? Asset { get; set; }
+
     public string UserId { get; set; }
     public IdentityUser User { get; set; }
     public int PayeeId { get; set; }
@@ -18,4 +19,7 @@ public class Sales
     public Transaction Transaction { get; set; }
     public int CategoryTypeId { get; set; }
     public CategoryType CategoryType { get; set; }
+    
+    [NotMapped]
+    public int WalletId { get; set; }
 }

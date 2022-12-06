@@ -16,6 +16,8 @@ public class IndexModel : PageModel
 
     public async Task OnGetAsync()
     {
-        
+        _logger.LogWarning($"Executing Index");
+        _logger.LogCritical("Executing Index");
+        _logger.LogInformation("Executing Index");
     }
 }

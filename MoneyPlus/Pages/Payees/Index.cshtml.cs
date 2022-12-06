@@ -14,6 +14,8 @@ public class IndexModel : PageModel
 
     public async Task OnGetAsync()
     {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
         if (_context.Payees != null)
         {
             Payee = await _context.Payees.ToListAsync();

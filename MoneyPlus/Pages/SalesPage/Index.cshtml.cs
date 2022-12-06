@@ -10,17 +10,21 @@ public class IndexModel : PageModel
         _context = context;
     }
 
-    public IList<Sales> Sales { get;set; } = default!;
+    public IList<Sales> Sales { get; set; } = default!;
 
     public async Task OnGetAsync()
     {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
         if (_context.Sales != null)
         {
             Sales = await _context.Sales
             .Include(s => s.CategoryType)
             .Include(s => s.Payee)
             .Include(s => s.Transaction)
-            .Include(s => s.User).ToListAsync();
+            .Include(s => s.User)
+            .Where(u => u.UserId == userId)
+            .ToListAsync();
         }
     }
 }

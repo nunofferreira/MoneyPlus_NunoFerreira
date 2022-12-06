@@ -10,14 +10,16 @@ public class IndexModel : PageModel
         _context = context;
     }
 
-    public IList<Wallet> Wallet { get;set; } = default!;
+    public IList<Wallet> Wallet { get; set; } = default!;
 
     public async Task OnGetAsync()
     {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
         if (_context.Wallets != null)
         {
             Wallet = await _context.Wallets
-            .Include(w => w.User).ToListAsync();
+            .Where(w => w.UserId == userId).ToListAsync();
         }
     }
 }

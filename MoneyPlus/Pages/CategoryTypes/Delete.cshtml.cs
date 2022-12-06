@@ -1,6 +1,6 @@
 ﻿namespace MoneyPlus.Pages.CategoryTypes;
 
-[Authorize]
+//TODO[Authorize(Roles = "Admin")]
 public class DeleteModel : PageModel
 {
     private readonly MoneyPlus.Data.ApplicationDbContext _context;
@@ -21,6 +21,7 @@ public class DeleteModel : PageModel
         }
 
         var categorytype = await _context.CategoryTypes.FirstOrDefaultAsync(m => m.Id == id);
+        categorytype.Category = _context.Categories.FirstOrDefault(c => c.Id == categorytype.CategoryId);
 
         if (categorytype == null)
         {

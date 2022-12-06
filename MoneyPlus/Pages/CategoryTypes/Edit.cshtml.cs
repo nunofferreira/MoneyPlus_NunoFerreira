@@ -1,6 +1,6 @@
 ﻿namespace MoneyPlus.Pages.CategoryTypes;
 
-[Authorize]
+//TODO[Authorize(Roles = "Admin")]
 public class EditModel : PageModel
 {
     private readonly MoneyPlus.Data.ApplicationDbContext _context;
@@ -26,7 +26,7 @@ public class EditModel : PageModel
             return NotFound();
         }
         CategoryType = categorytype;
-       ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id");
+       ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
         return Page();
     }
 

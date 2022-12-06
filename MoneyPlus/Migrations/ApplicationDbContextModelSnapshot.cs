@@ -347,7 +347,7 @@ namespace MoneyPlus.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("TransctionType")
+                    b.Property<string>("TransactionType")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Type")
@@ -374,6 +374,9 @@ namespace MoneyPlus.Migrations
 
                     b.Property<int>("Balance")
                         .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");

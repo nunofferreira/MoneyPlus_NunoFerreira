@@ -1,0 +1,174 @@
+﻿@page
+@model MoneyPlus.Pages.Reports.MonthlyExpensesModel
+
+@{
+    ViewData["Title"] = "MonthlyExpenses";
+
+    var date = Model.Sales.FirstOrDefault().Date;
+    var nextDate = date.AddMonths(1);
+    var prevDate = date.AddMonths(-1);
+}
+
+<h1>Monthly Expenses</h1>
+
+<p>
+    <a asp-page="./MonthlyExpenses" asp-route-month="@prevDate.Month" asp-route-year="@prevDate.Year">Previous Month</a>
+</p>
+<p>
+    <a asp-page="./MonthlyExpenses" asp-route-month="@nextDate.Month" asp-route-year="@nextDate.Year">Next Month</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Sales[0].Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sales[0].Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sales[0].PaymentMethod)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sales[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sales[0].Asset)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sales[0].User)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sales[0].Payee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sales[0].Transaction)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sales[0].CategoryType)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Sales)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PaymentMethod)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Asset)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Payee.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Transaction.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryType.Name)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+<h4>Total for Category</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AgregatedSalesByCategory[0].Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AgregatedSalesByCategory[0].TotalAmount)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.AgregatedSalesByCategory)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalAmount)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+<h4>Total for Payee</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AgregatedSalesByPayee[0].Payee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AgregatedSalesByPayee[0].TotalAmount)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.AgregatedSalesByPayee)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Payee)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalAmount)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+@*<hr />
+<h4>Total for Payee</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AgregatedSalesByPayee[0].Payee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AgregatedSalesByPayee[0].TotalAmount)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.AgregatedSalesByPayee)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Payee)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalAmount)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>*@

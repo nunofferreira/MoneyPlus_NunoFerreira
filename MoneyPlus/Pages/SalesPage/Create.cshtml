@@ -24,9 +24,12 @@
                 <span asp-validation-for="Sales.Amount" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Sales.PaymentMethod" class="control-label"></label>
-                <input asp-for="Sales.PaymentMethod" class="form-control" />
-                <span asp-validation-for="Sales.PaymentMethod" class="text-danger"></span>
+                <label asp-for="Sales.PaymentMethod" class="control-label">Payment Method</label>
+                <select asp-for="Sales.PaymentMethod" class="form-control" asp-items="ViewBag.PaymentType"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Sales.WalletId" class="control-label">Wallet</label>
+                <select asp-for="Sales.WalletId" class="form-control" asp-items="ViewBag.Wallet"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Sales.Description" class="control-label"></label>
@@ -39,19 +42,11 @@
                 <span asp-validation-for="Sales.Asset" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Sales.UserId" class="control-label"></label>
-                <select asp-for="Sales.UserId" class ="form-control" asp-items="ViewBag.UserId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Sales.PayeeId" class="control-label"></label>
+                <label asp-for="Sales.PayeeId" class="control-label">Payee</label>
                 <select asp-for="Sales.PayeeId" class ="form-control" asp-items="ViewBag.PayeeId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="Sales.TransactionId" class="control-label"></label>
-                <select asp-for="Sales.TransactionId" class ="form-control" asp-items="ViewBag.TransactionId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Sales.CategoryTypeId" class="control-label"></label>
+                <label asp-for="Sales.CategoryTypeId" class="control-label">Category</label>
                 <select asp-for="Sales.CategoryTypeId" class ="form-control" asp-items="ViewBag.CategoryTypeId"></select>
             </div>
             <div class="form-group">

@@ -5,10 +5,10 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Sales</h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create">Create New Sale</a>
 </p>
 <table class="table">
     <thead>
@@ -28,14 +28,14 @@
             <th>
                 @Html.DisplayNameFor(model => model.Sales[0].Asset)
             </th>
-            <th>
+          @*  <th>
                 @Html.DisplayNameFor(model => model.Sales[0].User)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Sales[0].Payee)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Sales[0].Transaction)
+                @Html.DisplayNameFor(model => model.Sales[0].TransactionId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Sales[0].CategoryType)
@@ -61,17 +61,17 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Asset)
             </td>
+          @*  <td>
+                @Html.DisplayFor(modelItem => item.User.Email)
+            </td>*@
             <td>
-                @Html.DisplayFor(modelItem => item.User.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Payee.Id)
+                @Html.DisplayFor(modelItem => item.Payee.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Transaction.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CategoryType.Id)
+                @Html.DisplayFor(modelItem => item.CategoryType.Name)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
