@@ -3,9 +3,9 @@
 [Authorize]
 public class IndexModel : PageModel
 {
-    private readonly MoneyPlus.Data.ApplicationDbContext _context;
+    private readonly ApplicationDbContext _context;
 
-    public IndexModel(MoneyPlus.Data.ApplicationDbContext context)
+    public IndexModel(ApplicationDbContext context)
     {
         _context = context;
     }
@@ -19,9 +19,8 @@ public class IndexModel : PageModel
         if (_context.Transactions != null)
         {
             Transaction = await _context.Transactions
-            .Where(t => t.Wallet.UserId == userId).ToListAsync();
-            //Transaction = await _context.Transactions
-            //.Include(t => t.Wallet).ToListAsync();
+            .Where(t => t.Wallet.UserId == userId)
+            .Include(t => t.Wallet).ToListAsync();
         }
     }
 }

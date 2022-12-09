@@ -25,8 +25,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Transaction.Type" class="control-label">Credit or Debit</label>
-                <input asp-for="Transaction.Type" class="form-control" />
-                <span asp-validation-for="Transaction.Type" class="text-danger"></span>
+                <select asp-for="Transaction.Type" class="form-control" asp-items="ViewBag.Type"> </select>
             </div>
             <div class="form-group">
                 <label asp-for="Transaction.TransactionType" class="control-label">Transaction Type</label>
@@ -34,12 +33,24 @@
                 <span asp-validation-for="Transaction.TransactionType" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Transaction.Wallet.Id" class="control-label">Wallet</label>
-                <select asp-for="Transaction.Wallet.Id" class="form-control" asp-items="ViewBag.WalletId"></select>
+                <label asp-for="Transaction.WalletId" class="control-label">Wallet</label>
+                <select asp-for="Transaction.WalletId" class="form-control" asp-items="ViewBag.WalletId"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
+@*            <div>
+                <select name="cars" id="cars">
+                    <optgroup label="Swedish Cars">
+                        <option value="volvo">Volvo</option>
+                        <option value="saab">Saab</option>
+                    </optgroup>
+                    <optgroup label="German Cars">
+                        <option value="mercedes">Mercedes</option>
+                        <option value="audi">Audi</option>
+                    </optgroup>
+                </select>
+            </div>*@
         </form>
     </div>
 </div>

@@ -16,3 +16,6 @@ global using System.Text.Encodings.Web;
 global using System.Text;
 global using System.Security.Claims;
 global using System.ComponentModel.DataAnnotations.Schema;
+global using Microsoft.AspNetCore.Localization;
+global using MoneyPlus.BackgroundServices;
+global using System.Globalization;

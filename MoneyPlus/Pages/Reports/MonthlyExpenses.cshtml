@@ -2,9 +2,9 @@
 @model MoneyPlus.Pages.Reports.MonthlyExpensesModel
 
 @{
-    ViewData["Title"] = "MonthlyExpenses";
+    var date = Model.Expenses.FirstOrDefault().Date;
+    ViewData["Title"] = $"MonthlyExpenses - {date.ToShortDateString}";
 
-    var date = Model.Sales.FirstOrDefault().Date;
     var nextDate = date.AddMonths(1);
     var prevDate = date.AddMonths(-1);
 }
@@ -12,46 +12,45 @@
 <h1>Monthly Expenses</h1>
 
 <p>
+    @*<button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>*@
     <a asp-page="./MonthlyExpenses" asp-route-month="@prevDate.Month" asp-route-year="@prevDate.Year">Previous Month</a>
-</p>
-<p>
     <a asp-page="./MonthlyExpenses" asp-route-month="@nextDate.Month" asp-route-year="@nextDate.Year">Next Month</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Sales[0].Date)
+                @Html.DisplayNameFor(model => model.Expenses[0].Date)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Sales[0].Amount)
+                @Html.DisplayNameFor(model => model.Expenses[0].Amount)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Sales[0].PaymentMethod)
+                @Html.DisplayNameFor(model => model.Expenses[0].PaymentMethod)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Sales[0].Description)
+                @Html.DisplayNameFor(model => model.Expenses[0].Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Sales[0].Asset)
+                @Html.DisplayNameFor(model => model.Expenses[0].Asset)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Sales[0].User)
+                @Html.DisplayNameFor(model => model.Expenses[0].User)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Sales[0].Payee)
+                @Html.DisplayNameFor(model => model.Expenses[0].Payee)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Sales[0].Transaction)
+                @Html.DisplayNameFor(model => model.Expenses[0].Transaction)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Sales[0].CategoryType)
+                @Html.DisplayNameFor(model => model.Expenses[0].CategoryType)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Sales)
+        @foreach (var item in Model.Expenses)
         {
             <tr>
                 <td>
@@ -144,25 +143,25 @@
     </tbody>
 </table>
 
-@*<hr />
+<hr />
 <h4>Total for Payee</h4>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.AgregatedSalesByPayee[0].Payee)
+                @Html.DisplayNameFor(model => model.AgregatedSalesByAsset[0].Asset)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AgregatedSalesByPayee[0].TotalAmount)
+                @Html.DisplayNameFor(model => model.AgregatedSalesByAsset[0].TotalAmount)
             </th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.AgregatedSalesByPayee)
+        @foreach (var item in Model.AgregatedSalesByAsset)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Payee)
+                    @Html.DisplayFor(modelItem => item.Asset)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.TotalAmount)
@@ -171,4 +170,26 @@
             </tr>
         }
     </tbody>
-</table>*@
+</table>
+
+@*<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Payee.Id" />
+            <div class="form-group">
+                <label asp-for="Payee.Name" class="control-label"></label>
+                <input asp-for="Payee.Name" class="form-control" />
+                <span asp-validation-for="Payee.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Payee.NIF" class="control-label"></label>
+                <input asp-for="Payee.NIF" class="form-control" />
+                <span asp-validation-for="Payee.NIF" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>*@

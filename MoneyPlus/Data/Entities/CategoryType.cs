@@ -3,7 +3,7 @@
 public class CategoryType
 {
     public int Id { get; set; }
-    [MaxLength(50)]
+    [MaxLength(100)]
     public string Name { get; set; }
 
     public int CategoryId { get; set; }

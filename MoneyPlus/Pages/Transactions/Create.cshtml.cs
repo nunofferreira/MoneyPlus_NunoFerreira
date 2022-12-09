@@ -1,4 +1,6 @@
-﻿namespace MoneyPlus.Pages.Transactions;
+﻿using Microsoft.EntityFrameworkCore.Query.Internal;
+
+namespace MoneyPlus.Pages.Transactions;
 
 [Authorize]
 public class CreateModel : PageModel
@@ -13,6 +15,7 @@ public class CreateModel : PageModel
     public IActionResult OnGet()
     {
         ViewData["WalletId"] = new SelectList(_context.Wallets, "Id", "Name");
+        ViewData["Type"] = new SelectList(Enum.GetValues(typeof(TransactionType)));
         return Page();
     }
 
@@ -28,8 +31,30 @@ public class CreateModel : PageModel
             return Page();
         }
 
-        _context.Transactions.Add(Transaction);
-        await _context.SaveChangesAsync();
+        using var dbContextTransaction = _context.Database.BeginTransaction();
+        {
+
+            Wallet wallet = _context.Wallets.FirstOrDefault(x => x.Id == Transaction.WalletId);
+            if (Transaction.Type == TransactionType.Credit)
+            {
+
+                wallet.Balance += Transaction.Amount;
+            }
+            else
+            {
+                wallet.Balance -= Transaction.Amount;
+            }
+            if (wallet.Balance < 0)
+            {
+                throw new Exception("You have no balance");
+            }
+
+            _context.Transactions.Add(Transaction);
+
+            await _context.SaveChangesAsync();
+
+            dbContextTransaction.Commit();
+        }
 
         return RedirectToPage("./Index");
     }

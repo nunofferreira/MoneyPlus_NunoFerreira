@@ -3,19 +3,15 @@
 [Authorize]
 public class CreateModel : PageModel
 {
-    private readonly MoneyPlus.Data.ApplicationDbContext _context;
+    private readonly ApplicationDbContext _context;
 
-    public CreateModel(MoneyPlus.Data.ApplicationDbContext context)
+    public CreateModel(ApplicationDbContext context)
     {
         _context = context;
     }
 
     public IActionResult OnGet()
     {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        ViewData["UserId"] = new SelectList(_context.Users.Where(u => u.UserName == userId), "Id", "Id");
-        //ViewData["Wallet"] = new SelectList(_context.Wallets.Where(w => w.UserId == userId), "Id", "Balance");
         return Page();
     }
 
@@ -30,6 +26,9 @@ public class CreateModel : PageModel
         {
             return Page();
         }
+
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        Wallet.UserId = userId;
 
         _context.Wallets.Add(Wallet);
         await _context.SaveChangesAsync();

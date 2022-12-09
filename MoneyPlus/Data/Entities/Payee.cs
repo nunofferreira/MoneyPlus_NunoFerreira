@@ -3,7 +3,7 @@
 public class Payee
 {
     public int Id { get; set; }
-    [MaxLength(50)]
+    [MaxLength(100)]
     public string Name { get; set; }
     public int NIF { get; set; }
 }

@@ -28,7 +28,7 @@ public class MonthlyExpensesModel : PageModel
         _context = context;
     }
 
-    public IList<Sales> Sales { get; set; } = default!;
+    public IList<Expense> Expenses { get; set; } = default!;
 
     public IList<AgregatedSalesByCategory> AgregatedSalesByCategory { get; set; }
 
@@ -42,41 +42,43 @@ public class MonthlyExpensesModel : PageModel
         int year = Year.HasValue ? Year.Value : DateTime.Now.Year;
 
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (_context.Sales != null)
+        if (_context.Expenses != null)
         {
-            Sales = await _context.Sales.Where(p => p.UserId == userId && p.Date.Month == month && p.Date.Year == year)
+            Expenses = await _context.Expenses.Where(p => p.UserId == userId && p.Date.Month == month && p.Date.Year == year)
             .Include(s => s.CategoryType)
             .Include(s => s.Payee)
             .Include(s => s.Transaction)
+            .Include(s => s.Asset)
             .Include(s => s.User).ToListAsync();
         }
 
-        if (Sales == null || Sales.Count == 0)
+        if (Expenses == null || Expenses.Count == 0)
         {
-            Sales = new List<Sales>();
-            Sales.Add(
-                new Sales()
+            Expenses = new List<Expense>();
+            Expenses.Add(
+                new Expense()
                 {
                     Date = new DateTime(year, month, 1),
                     Amount = 0,
                     Description = "---- NO SALES ----",
                     CategoryType = new CategoryType() { Name = "" },
-                    Payee = new Payee() { Name = "" }
+                    Payee = new Payee() { Name = "" },
+                    Asset = new Asset() { Name  =""}
                 }
                 );
         }
 
         AgregatedSalesByCategory =
-            Sales.GroupBy(c => c.CategoryType.Name).
+            Expenses.GroupBy(c => c.CategoryType.Name).
             Select(a => new AgregatedSalesByCategory() { Category = a.Key, TotalAmount = a.Sum(p => p.Amount) }).ToList();
 
         AgregatedSalesByPayee =
-            Sales.GroupBy(p => p.Payee.Name).
+            Expenses.GroupBy(p => p.Payee.Name).
             Select(a => new Reports.AgregatedSalesByPayee() { Payee = a.Key, TotalAmount = a.Sum(t => t.Amount) }).ToList();
 
         //TODO
-        //AgregatedSalesByAsset =
-        //    Sales.GroupBy(p => p.Asset).
-        //    Select(a => new Reports.AgregatedSalesByPayee() { Payee = a.Key, TotalAmount = a.Sum(t => t.Amount) }).ToList();
+        AgregatedSalesByAsset =
+            Expenses.GroupBy(p => p.Asset?.Name ?? " - No Asset - ").
+            Select(a => new Reports.AgregatedSalesByAsset() { Asset = a.Key, TotalAmount = a.Sum(t => t.Amount) }).ToList();
     }
 }

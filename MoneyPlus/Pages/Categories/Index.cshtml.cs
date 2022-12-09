@@ -1,12 +1,12 @@
 ﻿namespace MoneyPlus.Pages.Categories;
 
-//TODO[Authorize(Roles = "Admin")]
+//[Authorize(Roles = "Admin")]
 public class IndexModel : PageModel
 {
-    private readonly MoneyPlus.Data.ApplicationDbContext _context;
+    private readonly ApplicationDbContext _context;
     private readonly ILogger<IndexModel> _logger;
 
-    public IndexModel(MoneyPlus.Data.ApplicationDbContext context, ILogger<IndexModel> logger)
+    public IndexModel(ApplicationDbContext context, ILogger<IndexModel> logger)
     {
         _context = context;
         _logger = logger;

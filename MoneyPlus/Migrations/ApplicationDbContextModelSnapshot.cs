@@ -224,6 +224,23 @@ namespace MoneyPlus.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("MoneyPlus.Data.Entities.Asset", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Assets");
+                });
+
             modelBuilder.Entity("MoneyPlus.Data.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -233,8 +250,8 @@ namespace MoneyPlus.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -253,8 +270,8 @@ namespace MoneyPlus.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -263,7 +280,7 @@ namespace MoneyPlus.Migrations
                     b.ToTable("CategoryTypes");
                 });
 
-            modelBuilder.Entity("MoneyPlus.Data.Entities.Payee", b =>
+            modelBuilder.Entity("MoneyPlus.Data.Entities.Expense", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -271,32 +288,11 @@ namespace MoneyPlus.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("NIF")
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("AssetId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Payees");
-                });
-
-            modelBuilder.Entity("MoneyPlus.Data.Entities.Sales", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Asset")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("CategoryTypeId")
                         .HasColumnType("int");
@@ -305,8 +301,8 @@ namespace MoneyPlus.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<int>("PayeeId")
                         .HasColumnType("int");
@@ -322,6 +318,8 @@ namespace MoneyPlus.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AssetId");
+
                     b.HasIndex("CategoryTypeId");
 
                     b.HasIndex("PayeeId");
@@ -330,7 +328,27 @@ namespace MoneyPlus.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Sales");
+                    b.ToTable("Expenses");
+                });
+
+            modelBuilder.Entity("MoneyPlus.Data.Entities.Payee", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("NIF")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Payees");
                 });
 
             modelBuilder.Entity("MoneyPlus.Data.Entities.Transaction", b =>
@@ -341,8 +359,8 @@ namespace MoneyPlus.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -350,8 +368,8 @@ namespace MoneyPlus.Migrations
                     b.Property<string>("TransactionType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.Property<int>("WalletId")
                         .HasMaxLength(100)
@@ -372,11 +390,12 @@ namespace MoneyPlus.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Balance")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -450,8 +469,12 @@ namespace MoneyPlus.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("MoneyPlus.Data.Entities.Sales", b =>
+            modelBuilder.Entity("MoneyPlus.Data.Entities.Expense", b =>
                 {
+                    b.HasOne("MoneyPlus.Data.Entities.Asset", "Asset")
+                        .WithMany()
+                        .HasForeignKey("AssetId");
+
                     b.HasOne("MoneyPlus.Data.Entities.CategoryType", "CategoryType")
                         .WithMany()
                         .HasForeignKey("CategoryTypeId")
@@ -471,6 +494,8 @@ namespace MoneyPlus.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+
+                    b.Navigation("Asset");
 
                     b.Navigation("CategoryType");
 

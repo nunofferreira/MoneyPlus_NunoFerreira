@@ -3,9 +3,9 @@
 //TODO[Authorize(Roles = "Admin")]
 public class DeleteModel : PageModel
 {
-    private readonly MoneyPlus.Data.ApplicationDbContext _context;
+    private readonly ApplicationDbContext _context;
 
-    public DeleteModel(MoneyPlus.Data.ApplicationDbContext context)
+    public DeleteModel(ApplicationDbContext context)
     {
         _context = context;
     }

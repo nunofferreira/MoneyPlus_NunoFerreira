@@ -3,9 +3,9 @@
 [Authorize]
 public class IndexModel : PageModel
 {
-    private readonly MoneyPlus.Data.ApplicationDbContext _context;
+    private readonly ApplicationDbContext _context;
 
-    public IndexModel(MoneyPlus.Data.ApplicationDbContext context)
+    public IndexModel(ApplicationDbContext context)
     {
         _context = context;
     }
