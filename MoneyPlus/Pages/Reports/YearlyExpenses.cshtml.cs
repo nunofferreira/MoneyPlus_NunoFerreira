@@ -14,7 +14,6 @@ public class SubCategoryValue
 }
 
 
-
 [Authorize]
 public class YearlyExpensesModel : PageModel
 {
@@ -63,12 +62,12 @@ public class YearlyExpensesModel : PageModel
         }
 
         //Transform Expenses into YearlyByCategory
-        var result = Expenses.GroupBy(p => new { p.Date.Month, subCategory = p.CategoryType.Name, /*p.CategoryType.Category.Name*/ })
+        var result = Expenses.GroupBy(p => new { p.Date.Month, subCategory = p.CategoryType.Name, p.CategoryType.Category.Name })
             .Select(s => new SubCategoryValue()
             {
                 Year = year,
                 Month = s.Key.Month,
-                //CategoryName = s.Key.Name,
+                CategoryName = s.Key.Name,
                 SubCategoryName = s.Key.subCategory,
                 Amount = s.Sum(x => x.Amount)
             }).ToList();

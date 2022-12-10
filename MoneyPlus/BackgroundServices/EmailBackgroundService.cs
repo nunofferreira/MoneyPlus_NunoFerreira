@@ -14,7 +14,6 @@ public class EmailBackgroundService : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken ct)
     {
-
         while (!ct.IsCancellationRequested)
         {
             using var scope = _serviceProvider.CreateScope();

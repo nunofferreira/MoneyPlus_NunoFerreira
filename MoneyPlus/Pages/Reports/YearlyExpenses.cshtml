@@ -22,12 +22,14 @@
 <table class="table">
     <thead>
         <tr><th>@Model.ExpensesBySubCategory.SubCategories.FirstOrDefault().Year</th></tr>
-            @for (int i = 1; i <= 12; i++)
-            {
+        @for (int i = 1; i <= 12; i++)
+        {
+            <tr>
                 <th>
                     @(new DateTime(2010, i, 1)).ToString("MMM", CultureInfo.InvariantCulture)
                 </th>
-            }
+            </tr>
+        }
     </thead>
     <tbody>
         @foreach (var item in Model.ExpensesBySubCategory.SubCategories)

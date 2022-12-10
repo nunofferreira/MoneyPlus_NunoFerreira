@@ -1,5 +1,5 @@
 ﻿@page
-@model MoneyPlus.Pages.SalesPage.DetailsModel
+@model MoneyPlus.Pages.Expenses.DetailsModel
 
 @{
     ViewData["Title"] = "Details";
@@ -21,7 +21,7 @@
             @Html.DisplayNameFor(model => model.Expenses.Amount)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Expenses.Amount)
+            @Html.DisplayFor(model => model.Expenses.Amount)<i> €</i>
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Expenses.PaymentMethod)

@@ -1,4 +1,4 @@
-﻿namespace MoneyPlus.Pages.SalesPage;
+﻿namespace MoneyPlus.Pages.Expenses;
 
 [Authorize]
 public class EditModel : PageModel
@@ -17,6 +17,10 @@ public class EditModel : PageModel
 
     public async Task<IActionResult> OnGetAsync(int? id)
     {
+        List<Asset> assets = new List<Asset>();
+        assets.Add(new Asset() { Id = 0, Name = "- No asset -" });
+        assets.AddRange(_context.Assets);
+
         if (id == null || _context.Expenses == null)
         {
             return NotFound();
@@ -32,6 +36,7 @@ public class EditModel : PageModel
         ViewData["PayeeId"] = new SelectList(_context.Payees, "Id", "Name");
         ViewData["TransactionId"] = new SelectList(_context.Transactions, "Id", "Id");
         ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+        ViewData["AssetId"] = new SelectList(assets, "Id", "Name");
         return Page();
 
 
@@ -54,7 +59,7 @@ public class EditModel : PageModel
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!SalesExists(Expenses.Id))
+            if (!ExpenseExists(Expenses.Id))
             {
                 return NotFound();
             }
@@ -67,7 +72,7 @@ public class EditModel : PageModel
         return RedirectToPage("./Index");
     }
 
-    private bool SalesExists(int id)
+    private bool ExpenseExists(int id)
     {
         return _context.Expenses.Any(e => e.Id == id);
     }

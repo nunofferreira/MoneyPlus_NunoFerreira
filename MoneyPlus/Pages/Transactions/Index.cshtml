@@ -35,7 +35,7 @@
 @foreach (var item in Model.Transaction) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Amount)
+                    @Html.DisplayFor(modelItem => item.Amount)<i> €</i>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Date)

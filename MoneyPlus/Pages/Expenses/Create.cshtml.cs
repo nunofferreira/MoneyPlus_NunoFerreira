@@ -1,4 +1,4 @@
-﻿namespace MoneyPlus.Pages.SalesPage;
+﻿namespace MoneyPlus.Pages.Expenses;
 
 [Authorize]
 public class CreateModel : PageModel
@@ -22,7 +22,7 @@ public class CreateModel : PageModel
         _logger = logger;
     }
 
-    public IActionResult OnGet()
+    public async Task<IActionResult> OnGetAsync()
     {
         List<Asset> assets = new List<Asset>();
         assets.Add(new Asset() { Id = 0, Name = "- No asset -" });
@@ -37,7 +37,7 @@ public class CreateModel : PageModel
         ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
         ViewData["AssetId"] = new SelectList(assets, "Id", "Name");
         ViewData["PaymentType"] = new SelectList(PayMethods);
-        ViewData["Wallet"] = new SelectList(_context.Wallets.Where(w => w.UserId == userId), "Id", "Balance");
+        ViewData["Wallet"] = new SelectList(_context.Wallets.Where(w => w.UserId == userId), "Id", "Name");
         return Page();
     }
 

@@ -1,4 +1,4 @@
-﻿namespace MoneyPlus.Pages.SalesPage;
+﻿namespace MoneyPlus.Pages.Expenses;
 
 [Authorize]
 public class DetailsModel : PageModel
@@ -21,14 +21,16 @@ public class DetailsModel : PageModel
             return NotFound();
         }
 
-        var sales = await _context.Expenses.FirstOrDefaultAsync(m => m.Id == id);
-        if (sales == null)
+        var expenses = await _context.Expenses.FirstOrDefaultAsync(m => m.Id == id);
+        expenses.Asset = _context.Assets.FirstOrDefault(m => m.Id == expenses.AssetId);
+        expenses.Payee = _context.Payees.FirstOrDefault(m => m.Id == expenses.PayeeId);
+        if (expenses == null)
         {
             return NotFound();
         }
         else
         {
-            Expenses = sales;
+            Expenses = expenses;
         }
         return Page();
     }

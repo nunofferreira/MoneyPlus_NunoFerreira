@@ -1,4 +1,4 @@
-﻿namespace MoneyPlus.Pages.SalesPage;
+﻿namespace MoneyPlus.Pages.Expenses;
 
 [Authorize]
 public class IndexModel : PageModel

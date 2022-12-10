@@ -1,5 +1,5 @@
 ﻿@page
-@model MoneyPlus.Pages.SalesPage.EditModel
+@model MoneyPlus.Pages.Expenses.EditModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -34,11 +34,17 @@
                 <input asp-for="Expenses.Description" class="form-control" />
                 <span asp-validation-for="Expenses.Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
+        @*    <div class="form-group">
                 <label asp-for="Expenses.Asset" class="control-label"></label>
                 <input asp-for="Expenses.Asset" class="form-control" />
                 <span asp-validation-for="Expenses.Asset" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="Expenses.Asset" class="control-label"></label>
+                <select asp-for="Expenses.Asset" class="form-control" asp-items="ViewBag.AssetId"></select>
+                <span asp-validation-for="Expenses.Asset" class="text-danger"></span>
             </div>
+            <input type="hidden" asp-for="Expenses.UserId" />
             @*<div class="form-group">
                 <label asp-for="Expenses.UserId" class="control-label"></label>
                 <select asp-for="Expenses.UserId" class="form-control" asp-items="ViewBag.UserId"></select>
@@ -49,11 +55,12 @@
                 <select asp-for="Expenses.PayeeId" class="form-control" asp-items="ViewBag.PayeeId"></select>
                 <span asp-validation-for="Expenses.PayeeId" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <input type="hidden" asp-for="Expenses.TransactionId" />
+            @*<div class="form-group">
                 <label asp-for="Expenses.TransactionId" class="control-label">Transaction Id</label>
                 <select asp-for="Expenses.TransactionId" class="form-control" asp-items="ViewBag.TransactionId"></select>
                 <span asp-validation-for="Expenses.TransactionId" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <label asp-for="Expenses.CategoryTypeId" class="control-label">Category Type</label>
                 <select asp-for="Expenses.CategoryTypeId" class="form-control" asp-items="ViewBag.CategoryTypeId"></select>

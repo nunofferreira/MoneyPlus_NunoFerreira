@@ -1,5 +1,5 @@
 ﻿@page
-@model MoneyPlus.Pages.SalesPage.IndexModel
+@model MoneyPlus.Pages.Expenses.IndexModel
 
 @{
     ViewData["Title"] = "Index";
@@ -8,7 +8,7 @@
 <h1>Expenses</h1>
 
 <p>
-    <a asp-page="Create">Create New Sale</a>
+    <a asp-page="Create">Input New Expense</a>
 </p>
 <table class="table">
     <thead>
@@ -34,9 +34,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Expenses[0].Payee)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.Expenses[0].TransactionId)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Expenses[0].CategoryType)
             </th>
@@ -50,7 +50,7 @@
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Amount)
+                    @Html.DisplayFor(modelItem => item.Amount)<i> €</i>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PaymentMethod)
@@ -67,9 +67,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Payee.Name)
             </td>
-            <td>
+          @*  <td>
                 @Html.DisplayFor(modelItem => item.Transaction.Id)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.CategoryType.Name)
             </td>
