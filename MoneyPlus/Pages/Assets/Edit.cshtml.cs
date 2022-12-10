@@ -4,10 +4,12 @@
 public class EditModel : PageModel
 {
     private readonly ApplicationDbContext _context;
+    private readonly ILogger<IndexModel> _logger;
 
-    public EditModel(ApplicationDbContext context)
+    public EditModel(ApplicationDbContext context, ILogger<IndexModel> logger)
     {
         _context = context;
+        _logger = logger;
     }
 
     [BindProperty]

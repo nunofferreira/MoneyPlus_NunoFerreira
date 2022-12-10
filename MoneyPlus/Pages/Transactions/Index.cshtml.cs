@@ -4,10 +4,12 @@
 public class IndexModel : PageModel
 {
     private readonly ApplicationDbContext _context;
+    private readonly ILogger<IndexModel> _logger;
 
-    public IndexModel(ApplicationDbContext context)
+    public IndexModel(ApplicationDbContext context, ILogger<IndexModel> logger)
     {
         _context = context;
+        _logger = logger;
     }
 
     public IList<Transaction> Transaction { get; set; } = default!;

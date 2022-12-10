@@ -3,11 +3,13 @@
 //TODO[Authorize(Roles = "Admin")]
 public class EditModel : PageModel
 {
-    private readonly MoneyPlus.Data.ApplicationDbContext _context;
+    private readonly ApplicationDbContext _context;
+    private readonly ILogger<IndexModel> _logger;
 
-    public EditModel(MoneyPlus.Data.ApplicationDbContext context)
+    public EditModel(MoneyPlus.Data.ApplicationDbContext context, ILogger<IndexModel> logger)
     {
         _context = context;
+        _logger = logger;
     }
 
     [BindProperty]

@@ -3,11 +3,13 @@
 [Authorize]
 public class EditModel : PageModel
 {
-    private readonly MoneyPlus.Data.ApplicationDbContext _context;
+    private readonly ApplicationDbContext _context;
+    private readonly ILogger<IndexModel> _logger;
 
-    public EditModel(MoneyPlus.Data.ApplicationDbContext context)
+    public EditModel(ApplicationDbContext context, ILogger<IndexModel> logger)
     {
         _context = context;
+        _logger = logger;
     }
 
     [BindProperty]
@@ -20,13 +22,13 @@ public class EditModel : PageModel
             return NotFound();
         }
 
-        var transaction =  await _context.Transactions.FirstOrDefaultAsync(m => m.Id == id);
+        var transaction = await _context.Transactions.FirstOrDefaultAsync(m => m.Id == id);
         if (transaction == null)
         {
             return NotFound();
         }
         Transaction = transaction;
-       ViewData["WalletId"] = new SelectList(_context.Wallets, "Id", "Name");
+        ViewData["WalletId"] = new SelectList(_context.Wallets, "Id", "Name");
         return Page();
     }
 
@@ -62,6 +64,6 @@ public class EditModel : PageModel
 
     private bool TransactionExists(int id)
     {
-      return _context.Transactions.Any(e => e.Id == id);
+        return _context.Transactions.Any(e => e.Id == id);
     }
 }

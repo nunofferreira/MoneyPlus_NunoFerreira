@@ -4,10 +4,12 @@
 public class DeleteModel : PageModel
 {
     private readonly ApplicationDbContext _context;
+    private readonly ILogger<IndexModel> _logger;
 
-    public DeleteModel(ApplicationDbContext context)
+    public DeleteModel(ApplicationDbContext context, ILogger<IndexModel> logger)
     {
         _context = context;
+        _logger = logger;
     }
 
     [BindProperty]

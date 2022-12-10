@@ -4,10 +4,12 @@
 public class CreateModel : PageModel
 {
     private readonly ApplicationDbContext _context;
+    private readonly ILogger<IndexModel> _logger;
 
-    public CreateModel(ApplicationDbContext context)
+    public CreateModel(ApplicationDbContext context, ILogger<IndexModel> logger)
     {
         _context = context;
+        _logger = logger;
     }
 
     public IActionResult OnGet()

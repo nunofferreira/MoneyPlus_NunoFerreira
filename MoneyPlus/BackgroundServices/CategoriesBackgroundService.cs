@@ -17,12 +17,12 @@ public class CategoriesBackgroundService : BackgroundService
     {
         using var scope = _serviceProvider.CreateScope();
         var ctx = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        
+
         while (true)
         {
             await DoWorkAsync();
 
-            Debug.WriteLine(ctx.CategoryTypes.ToList()) ;
+            Debug.WriteLine(ctx.CategoryTypes.ToList());
 
             await Task.Delay(IntervalBeweenJobs);
         }

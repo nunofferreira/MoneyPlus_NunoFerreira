@@ -3,11 +3,13 @@
 [Authorize]
 public class EditModel : PageModel
 {
-    private readonly MoneyPlus.Data.ApplicationDbContext _context;
+    private readonly ApplicationDbContext _context;
+    private readonly ILogger<IndexModel> _logger;
 
-    public EditModel(MoneyPlus.Data.ApplicationDbContext context)
+    public EditModel(ApplicationDbContext context, ILogger<IndexModel> logger)
     {
         _context = context;
+        _logger = logger;
     }
 
     [BindProperty]
@@ -20,7 +22,7 @@ public class EditModel : PageModel
             return NotFound();
         }
 
-        var payee =  await _context.Payees.FirstOrDefaultAsync(m => m.Id == id);
+        var payee = await _context.Payees.FirstOrDefaultAsync(m => m.Id == id);
         if (payee == null)
         {
             return NotFound();
@@ -61,6 +63,6 @@ public class EditModel : PageModel
 
     private bool PayeeExists(int id)
     {
-      return _context.Payees.Any(e => e.Id == id);
+        return _context.Payees.Any(e => e.Id == id);
     }
 }

@@ -3,11 +3,13 @@
 [Authorize]
 public class IndexModel : PageModel
 {
-    private readonly MoneyPlus.Data.ApplicationDbContext _context;
+    private readonly ApplicationDbContext _context;
+    private readonly ILogger<IndexModel> _logger;
 
-    public IndexModel(MoneyPlus.Data.ApplicationDbContext context)
+    public IndexModel(ApplicationDbContext context, ILogger<IndexModel> logger)
     {
         _context = context;
+        _logger = logger;
     }
 
     public IList<Wallet> Wallet { get; set; } = default!;

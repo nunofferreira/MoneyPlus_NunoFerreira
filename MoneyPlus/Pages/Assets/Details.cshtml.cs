@@ -4,10 +4,12 @@
 public class DetailsModel : PageModel
 {
     private readonly ApplicationDbContext _context;
+    private readonly ILogger<IndexModel> _logger;
 
-    public DetailsModel(ApplicationDbContext context)
+    public DetailsModel(ApplicationDbContext context, ILogger<IndexModel> logger)
     {
         _context = context;
+        _logger = logger;
     }
 
   public Asset Asset { get; set; }

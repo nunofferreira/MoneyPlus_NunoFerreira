@@ -3,11 +3,13 @@
 [Authorize]
 public class EditModel : PageModel
 {
-    private readonly MoneyPlus.Data.ApplicationDbContext _context;
+    private readonly ApplicationDbContext _context;
+    private readonly ILogger<IndexModel> _logger;
 
-    public EditModel(MoneyPlus.Data.ApplicationDbContext context)
+    public EditModel(ApplicationDbContext context, ILogger<IndexModel> logger)
     {
         _context = context;
+        _logger = logger;
     }
 
     [BindProperty]
@@ -20,19 +22,19 @@ public class EditModel : PageModel
             return NotFound();
         }
 
-        var sales =  await _context.Expenses.FirstOrDefaultAsync(m => m.Id == id);
+        var sales = await _context.Expenses.FirstOrDefaultAsync(m => m.Id == id);
         if (sales == null)
         {
             return NotFound();
         }
         Expenses = sales;
-       ViewData["CategoryTypeId"] = new SelectList(_context.CategoryTypes, "Id", "Name");
-       ViewData["PayeeId"] = new SelectList(_context.Payees, "Id", "Name");
-       ViewData["TransactionId"] = new SelectList(_context.Transactions, "Id", "Id");
-       ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+        ViewData["CategoryTypeId"] = new SelectList(_context.CategoryTypes, "Id", "Name");
+        ViewData["PayeeId"] = new SelectList(_context.Payees, "Id", "Name");
+        ViewData["TransactionId"] = new SelectList(_context.Transactions, "Id", "Id");
+        ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
         return Page();
 
-        
+
     }
 
     // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -67,6 +69,6 @@ public class EditModel : PageModel
 
     private bool SalesExists(int id)
     {
-      return _context.Expenses.Any(e => e.Id == id);
+        return _context.Expenses.Any(e => e.Id == id);
     }
 }

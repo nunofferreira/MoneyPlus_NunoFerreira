@@ -19,10 +19,12 @@ public class SubCategoryValue
 public class YearlyExpensesModel : PageModel
 {
     private readonly ApplicationDbContext _context;
+    private readonly ILogger<IndexModel> _logger;
 
-    public YearlyExpensesModel(ApplicationDbContext context)
+    public YearlyExpensesModel(ApplicationDbContext context, ILogger<IndexModel> logger)
     {
         _context = context;
+        _logger = logger;
     }
 
     public YearlyByCategory ExpensesBySubCategory { get; set; } = default!;
@@ -55,19 +57,21 @@ public class YearlyExpensesModel : PageModel
                     Description = "---- NO SALES ----",
                     CategoryType = new CategoryType() { Name = "" },
                     Payee = new Payee() { Name = "" },
-                    Asset = new Asset() { Name  =""}
+                    Asset = new Asset() { Name = "" }
                 }
                 );
         }
 
         //Transform Expenses into YearlyByCategory
-        var result = Expenses.GroupBy(p => new { p.Date.Month, subCategory = p.CategoryType.Name, p.CategoryType.Category.Name })
+        var result = Expenses.GroupBy(p => new { p.Date.Month, subCategory = p.CategoryType.Name, /*p.CategoryType.Category.Name*/ })
             .Select(s => new SubCategoryValue()
-            { Year = year,
+            {
+                Year = year,
                 Month = s.Key.Month,
-                CategoryName = s.Key.Name,
+                //CategoryName = s.Key.Name,
                 SubCategoryName = s.Key.subCategory,
-                Amount = s.Sum(x => x.Amount) }).ToList();
+                Amount = s.Sum(x => x.Amount)
+            }).ToList();
 
         ExpensesBySubCategory = new YearlyByCategory();
         ExpensesBySubCategory.SubCategories = result;

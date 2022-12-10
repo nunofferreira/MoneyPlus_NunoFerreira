@@ -3,11 +3,13 @@
 [Authorize]
 public class CreateModel : PageModel
 {
-    private readonly MoneyPlus.Data.ApplicationDbContext _context;
+    private readonly ApplicationDbContext _context;
+    private readonly ILogger<IndexModel> _logger;
 
-    public CreateModel(MoneyPlus.Data.ApplicationDbContext context)
+    public CreateModel(ApplicationDbContext context, ILogger<IndexModel> logger)
     {
         _context = context;
+        _logger = logger;
     }
 
     public IActionResult OnGet()
@@ -17,12 +19,12 @@ public class CreateModel : PageModel
 
     [BindProperty]
     public Payee Payee { get; set; }
-    
+
 
     // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
     public async Task<IActionResult> OnPostAsync()
     {
-      if (!ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
             return Page();
         }

@@ -22,10 +22,12 @@ public class AgregatedSalesByAsset
 public class MonthlyExpensesModel : PageModel
 {
     private readonly ApplicationDbContext _context;
+    private readonly ILogger<IndexModel> _logger;
 
-    public MonthlyExpensesModel(ApplicationDbContext context)
+    public MonthlyExpensesModel(ApplicationDbContext context, ILogger<IndexModel> logger)
     {
         _context = context;
+        _logger = logger;
     }
 
     public IList<Expense> Expenses { get; set; } = default!;
@@ -63,7 +65,7 @@ public class MonthlyExpensesModel : PageModel
                     Description = "---- NO SALES ----",
                     CategoryType = new CategoryType() { Name = "" },
                     Payee = new Payee() { Name = "" },
-                    Asset = new Asset() { Name  =""}
+                    Asset = new Asset() { Name = "" }
                 }
                 );
         }

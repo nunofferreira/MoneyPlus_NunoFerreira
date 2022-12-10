@@ -5,14 +5,16 @@ namespace MoneyPlus.Pages.Transactions;
 [Authorize]
 public class DetailsModel : PageModel
 {
-    private readonly MoneyPlus.Data.ApplicationDbContext _context;
+    private readonly ApplicationDbContext _context;
+    private readonly ILogger<IndexModel> _logger;
 
-    public DetailsModel(MoneyPlus.Data.ApplicationDbContext context)
+    public DetailsModel(ApplicationDbContext context, ILogger<IndexModel> logger)
     {
         _context = context;
+        _logger = logger;
     }
 
-  public Transaction Transaction { get; set; }
+    public Transaction Transaction { get; set; }
 
     public async Task<IActionResult> OnGetAsync(int? id)
     {
@@ -28,7 +30,7 @@ public class DetailsModel : PageModel
         {
             return NotFound();
         }
-        else 
+        else
         {
             Transaction = transaction;
         }
