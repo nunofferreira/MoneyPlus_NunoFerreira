@@ -2,9 +2,30 @@
 
 public class YearlyByCategory
 {
-    public List<SubCategoryValue> SubCategories { get; set; }
+    public List<CategoryValue> Categories { get; set; }
 }
+
+public class CategoryValue
+{
+    public List<SubCategoryValue> SubCategoryList { get; set; }
+    public string CategoryName { get; set; }
+    public List<MonthlyValues> MonthlyValues { get; set; }
+}
+
 public class SubCategoryValue
+{
+    public string SubCategoryName { get; set; }
+    public List<MonthlyValues> MonthlyValues { get; set; }
+}
+
+public class MonthlyValues
+{
+    public int Amount { get; set; }
+    public int Year { get; set; }
+    public int Month { get; set; }
+}
+
+public class CategoryFlatValue
 {
     public string SubCategoryName { get; set; }
     public string CategoryName { get; set; }
@@ -12,7 +33,6 @@ public class SubCategoryValue
     public int Year { get; set; }
     public int Month { get; set; }
 }
-
 
 [Authorize]
 public class YearlyExpensesModel : PageModel
@@ -26,11 +46,12 @@ public class YearlyExpensesModel : PageModel
         _logger = logger;
     }
 
+    [BindProperty]
     public YearlyByCategory ExpensesBySubCategory { get; set; } = default!;
 
     public async Task OnGetAsync(int? Year)
     {
-        int year = Year.HasValue ? Year.Value : DateTime.Now.Year;
+        int year = Year ?? DateTime.Now.Year;
 
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         List<Expense> Expenses = null;
@@ -42,6 +63,7 @@ public class YearlyExpensesModel : PageModel
             .Include(s => s.Payee)
             .Include(s => s.Transaction)
             .Include(s => s.Asset)
+            .Include(s => s.CategoryType.Category)
             .Include(s => s.User).ToListAsync();
         }
 
@@ -62,18 +84,71 @@ public class YearlyExpensesModel : PageModel
         }
 
         //Transform Expenses into YearlyByCategory
-        var result = Expenses.GroupBy(p => new { p.Date.Month, subCategory = p.CategoryType.Name, p.CategoryType.Category.Name })
-            .Select(s => new SubCategoryValue()
+        var result = Expenses.GroupBy(p => new { p.Date.Month, subCategory = p.CategoryType?.Name ?? "- No Sub Category -", category = p.CategoryType?.Category?.Name ?? "- No Categories -" })
+            .Select(s => new CategoryFlatValue()
             {
                 Year = year,
                 Month = s.Key.Month,
-                CategoryName = s.Key.Name,
+                CategoryName = s.Key.category,
                 SubCategoryName = s.Key.subCategory,
                 Amount = s.Sum(x => x.Amount)
-            }).ToList();
+            }).OrderBy(p => p.CategoryName).ToList();
 
         ExpensesBySubCategory = new YearlyByCategory();
-        ExpensesBySubCategory.SubCategories = result;
+        ExpensesBySubCategory.Categories = new List<CategoryValue>();
 
+        var categoryValuesList = result.GroupBy(c => new { c.CategoryName }).Select(p =>
+        new CategoryValue() { CategoryName = p.Key.CategoryName, MonthlyValues = new List<MonthlyValues>() }).ToList();
+
+        foreach (var category in categoryValuesList)
+        {
+            category.MonthlyValues.AddRange
+                (result.Where(p => p.CategoryName.Equals(category.CategoryName)).GroupBy(p => new { p.Month, p.Year })
+                .Select(a => new MonthlyValues()
+                {
+                    Month = a.Key.Month,
+                    Year = a.Key.Year,
+                    Amount = a.Sum(x => x.Amount)
+                }).ToList());
+        }
+
+        foreach (var newCategory in categoryValuesList)
+        {
+            newCategory.SubCategoryList = new List<SubCategoryValue>();
+
+            //Add sub categories
+            foreach (var subCategories in result.Where(p => p.CategoryName.Equals(newCategory.CategoryName)))
+            {
+                var subCategory = newCategory.SubCategoryList.FirstOrDefault(p => p.SubCategoryName.Equals(subCategories.SubCategoryName));
+
+                if (subCategory == null)
+                {
+                    subCategory = new SubCategoryValue()
+                    {
+                        SubCategoryName = subCategories.SubCategoryName
+                    };
+                    newCategory.SubCategoryList.Add(subCategory);
+                }
+
+                if (subCategory.MonthlyValues == null)
+                {
+                    subCategory.MonthlyValues = new List<MonthlyValues>();
+                }
+
+                subCategory.MonthlyValues.Add(new MonthlyValues()
+                {
+                    Amount = subCategories.Amount,
+                    Month = subCategories.Month,
+                    Year = subCategories.Year,
+                });
+            }
+
+            ExpensesBySubCategory.Categories = categoryValuesList;
+
+            //ExpensesBySubCategory.Categories.Where(p => p.MonthlyValues.Where(x => x.Month == 1).Sum(p => p.Amount));
+
+            var ex = ExpensesBySubCategory.Categories.Where(m => m.MonthlyValues != null).ToList();
+            
+        }
     }
 }

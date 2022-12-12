@@ -20,6 +20,7 @@ public class EditModel : PageModel
         List<Asset> assets = new List<Asset>();
         assets.Add(new Asset() { Id = 0, Name = "- No asset -" });
         assets.AddRange(_context.Assets);
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
         if (id == null || _context.Expenses == null)
         {
@@ -37,9 +38,9 @@ public class EditModel : PageModel
         ViewData["TransactionId"] = new SelectList(_context.Transactions, "Id", "Id");
         ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
         ViewData["AssetId"] = new SelectList(assets, "Id", "Name");
+        ViewData["PaymentType"] = new SelectList(CreateModel.PayMethods);
+        ViewData["Wallet"] = new SelectList(_context.Wallets.Where(w => w.UserId == userId), "Id", "Name");
         return Page();
-
-
     }
 
     // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -49,6 +50,11 @@ public class EditModel : PageModel
         if (!ModelState.IsValid)
         {
             return Page();
+        }
+        
+        if (Expenses.AssetId == 0)
+        {
+            Expenses.AssetId = null;
         }
 
         _context.Attach(Expenses).State = EntityState.Modified;

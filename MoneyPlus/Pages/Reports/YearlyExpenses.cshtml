@@ -2,7 +2,7 @@
 @model MoneyPlus.Pages.Reports.YearlyExpensesModel
 
 @{
-    var year = Model.ExpensesBySubCategory.SubCategories.FirstOrDefault().Year;
+    var year = Model.ExpensesBySubCategory.Categories.FirstOrDefault().MonthlyValues.FirstOrDefault().Year;
     ViewData["Title"] = $"YearlyExpenses - {year}";
 
     var nextYear = year++;
@@ -21,27 +21,55 @@
 <h4>Total for Category/Month</h4>
 <table class="table">
     <thead>
-        <tr><th>@Model.ExpensesBySubCategory.SubCategories.FirstOrDefault().Year</th></tr>
-        @for (int i = 1; i <= 12; i++)
-        {
-            <tr>
+        <tr>
+            <th>@Model.ExpensesBySubCategory.Categories.FirstOrDefault().MonthlyValues.FirstOrDefault().Year</th>
+            @for (int i = 1; i <= 12; i++)
+            {
                 <th>
-                    @(new DateTime(2010, i, 1)).ToString("MMM", CultureInfo.InvariantCulture)
+                    @Html.Raw(new DateTime(2010, i, 1).ToString("MMM", CultureInfo.InvariantCulture))
                 </th>
-            </tr>
-        }
+            }
+        </tr>
+
     </thead>
+
     <tbody>
-        @foreach (var item in Model.ExpensesBySubCategory.SubCategories)
+        @foreach (var category in Model.ExpensesBySubCategory.Categories)
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CategoryName)
-                </td>
-
+                <td> <b>@Html.DisplayFor(modelItem =>category.CategoryName)</b> </td>
+                @for (int j = 1; j <= 12; j++)
+                {
+                    <td>
+                        <b>
+                            @Html.Raw(category.MonthlyValues.FirstOrDefault(p=> p.Month == j)?.Amount ?? 0)
+                        </b>
+                    </td>
+                }
             </tr>
+            foreach (var subcategory in category.SubCategoryList)
+            {
+                <tr>
+                    <td> @Html.DisplayFor(modelItem =>subcategory.SubCategoryName) </td>
+                    @for (int j = 1; j <= 12; j++)
+                    {
+                        <td>
+                            @Html.Raw(subcategory.MonthlyValues.FirstOrDefault(p=> p.Month == j)?.Amount ?? 0)
+                        </td>
+                    }
+                </tr>
+            }
         }
     </tbody>
-</table>
 
+    <tfoot>
+        <tr>
+            <th class="">Total</th>
+            @foreach (var category in Model.ExpensesBySubCategory.Categories)
+            {
+
+            }
+        </tr>
+    </tfoot>
+</table>
 <hr />

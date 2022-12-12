@@ -3,7 +3,7 @@
 [Authorize]
 public class CreateModel : PageModel
 {
-    public List<string> PayMethods
+    public static List<string> PayMethods
     {
         get => new()
         {
@@ -54,7 +54,7 @@ public class CreateModel : PageModel
             return Page();
         }
 
-        Transaction newTran = new();
+        Transaction newTran = null;
 
         using var dbContextTransaction = _context.Database.BeginTransaction();
         {

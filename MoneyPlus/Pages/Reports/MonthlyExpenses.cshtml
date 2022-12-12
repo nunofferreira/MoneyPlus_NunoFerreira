@@ -34,15 +34,15 @@
             <th>
                 @Html.DisplayNameFor(model => model.Expenses[0].Asset)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.Expenses[0].User)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Expenses[0].Payee)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.Expenses[0].Transaction)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Expenses[0].CategoryType)
             </th>
@@ -66,17 +66,17 @@
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Asset)
+                    @Html.DisplayFor(modelItem => item.Asset.Name)
                 </td>
-                <td>
+                @*<td>
                     @Html.DisplayFor(modelItem => item.User.Email)
-                </td>
+                </td>*@
                 <td>
                     @Html.DisplayFor(modelItem => item.Payee.Name)
                 </td>
-                <td>
+                @*<td>
                     @Html.DisplayFor(modelItem => item.Transaction.Id)
-                </td>
+                </td>*@
                 <td>
                     @Html.DisplayFor(modelItem => item.CategoryType.Name)
                 </td>
@@ -91,15 +91,15 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.AgregatedSalesByCategory[0].Category)
+                @Html.DisplayNameFor(model => model.AgregatedExpensesByCategory[0].Category)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AgregatedSalesByCategory[0].TotalAmount)
+                @Html.DisplayNameFor(model => model.AgregatedExpensesByCategory[0].TotalAmount)
             </th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.AgregatedSalesByCategory)
+        @foreach (var item in Model.AgregatedExpensesByCategory)
         {
             <tr>
                 <td>
@@ -120,15 +120,15 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.AgregatedSalesByPayee[0].Payee)
+                @Html.DisplayNameFor(model => model.AgregatedExpensesByPayee[0].Payee)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AgregatedSalesByPayee[0].TotalAmount)
+                @Html.DisplayNameFor(model => model.AgregatedExpensesByPayee[0].TotalAmount)
             </th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.AgregatedSalesByPayee)
+        @foreach (var item in Model.AgregatedExpensesByPayee)
         {
             <tr>
                 <td>
@@ -144,20 +144,20 @@
 </table>
 
 <hr />
-<h4>Total for Payee</h4>
+<h4>Total for Asset</h4>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.AgregatedSalesByAsset[0].Asset)
+                @Html.DisplayNameFor(model => model.AgregatedExpensesByAsset[0].Asset)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AgregatedSalesByAsset[0].TotalAmount)
+                @Html.DisplayNameFor(model => model.AgregatedExpensesByAsset[0].TotalAmount)
             </th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.AgregatedSalesByAsset)
+        @foreach (var item in Model.AgregatedExpensesByAsset)
         {
             <tr>
                 <td>

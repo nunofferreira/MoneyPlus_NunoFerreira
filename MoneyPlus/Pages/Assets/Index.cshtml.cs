@@ -16,9 +16,12 @@ public class IndexModel : PageModel
 
     public async Task OnGetAsync()
     {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
         if (_context.Assets != null)
         {
-            Asset = await _context.Assets.ToListAsync();
+            Asset = await _context.Assets
+                .Where(a => a.UserId == userId).ToListAsync();
         }
     }
 }

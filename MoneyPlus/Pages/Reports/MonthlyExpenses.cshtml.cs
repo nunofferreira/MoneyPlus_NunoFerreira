@@ -1,18 +1,18 @@
 ﻿namespace MoneyPlus.Pages.Reports;
 
-public class AgregatedSalesByCategory
+public class AgregatedExpensesByCategory
 {
     public int TotalAmount { get; set; }
     public string Category { get; set; }
 }
 
-public class AgregatedSalesByPayee
+public class AgregatedExpensesByPayee
 {
     public int TotalAmount { get; set; }
     public string Payee { get; set; }
 }
 
-public class AgregatedSalesByAsset
+public class AgregatedExpensesByAsset
 {
     public int TotalAmount { get; set; }
     public string Asset { get; set; }
@@ -32,11 +32,11 @@ public class MonthlyExpensesModel : PageModel
 
     public IList<Expense> Expenses { get; set; } = default!;
 
-    public IList<AgregatedSalesByCategory> AgregatedSalesByCategory { get; set; }
+    public IList<AgregatedExpensesByCategory> AgregatedExpensesByCategory { get; set; }
 
-    public IList<AgregatedSalesByPayee> AgregatedSalesByPayee { get; set; }
+    public IList<AgregatedExpensesByPayee> AgregatedExpensesByPayee { get; set; }
 
-    public IList<AgregatedSalesByAsset> AgregatedSalesByAsset { get; set; }
+    public IList<AgregatedExpensesByAsset> AgregatedExpensesByAsset { get; set; }
 
     public async Task OnGetAsync(int? Month, int? Year)
     {
@@ -62,7 +62,7 @@ public class MonthlyExpensesModel : PageModel
                 {
                     Date = new DateTime(year, month, 1),
                     Amount = 0,
-                    Description = "---- NO SALES ----",
+                    Description = "---- NO EXPENSES ----",
                     CategoryType = new CategoryType() { Name = "" },
                     Payee = new Payee() { Name = "" },
                     Asset = new Asset() { Name = "" }
@@ -70,17 +70,16 @@ public class MonthlyExpensesModel : PageModel
                 );
         }
 
-        AgregatedSalesByCategory =
+        AgregatedExpensesByCategory =
             Expenses.GroupBy(c => c.CategoryType.Name).
-            Select(a => new AgregatedSalesByCategory() { Category = a.Key, TotalAmount = a.Sum(p => p.Amount) }).ToList();
+            Select(a => new AgregatedExpensesByCategory() { Category = a.Key, TotalAmount = a.Sum(p => p.Amount) }).ToList();
 
-        AgregatedSalesByPayee =
+        AgregatedExpensesByPayee =
             Expenses.GroupBy(p => p.Payee.Name).
-            Select(a => new Reports.AgregatedSalesByPayee() { Payee = a.Key, TotalAmount = a.Sum(t => t.Amount) }).ToList();
+            Select(a => new Reports.AgregatedExpensesByPayee() { Payee = a.Key, TotalAmount = a.Sum(t => t.Amount) }).ToList();
 
-        //TODO
-        AgregatedSalesByAsset =
+        AgregatedExpensesByAsset =
             Expenses.GroupBy(p => p.Asset?.Name ?? " - No Asset - ").
-            Select(a => new Reports.AgregatedSalesByAsset() { Asset = a.Key, TotalAmount = a.Sum(t => t.Amount) }).ToList();
-    }
+            Select(a => new Reports.AgregatedExpensesByAsset() { Asset = a.Key, TotalAmount = a.Sum(t => t.Amount) }).ToList();
+        }
 }

@@ -45,9 +45,19 @@ public class DeleteModel : PageModel
 
         if (sales != null)
         {
-            Expenses = sales;
-            _context.Expenses.Remove(Expenses);
-            await _context.SaveChangesAsync();
+            using var dbContextTransaction = _context.Database.BeginTransaction();
+            {
+                Expenses = sales;
+                if (sales.TransactionId > 0)
+                {
+                    var trans = await _context.Transactions.FindAsync(sales.TransactionId);
+                    if(trans != null) _context.Transactions.Remove(trans);
+                }
+                _context.Expenses.Remove(Expenses);
+                await _context.SaveChangesAsync();
+
+                dbContextTransaction.Commit();
+            }
         }
 
         return RedirectToPage("./Index");

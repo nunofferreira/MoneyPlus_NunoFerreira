@@ -29,6 +29,9 @@ public class CreateModel : PageModel
             return Page();
         }
 
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        Asset.UserId = userId;
+
         _context.Assets.Add(Asset);
         await _context.SaveChangesAsync();
 
