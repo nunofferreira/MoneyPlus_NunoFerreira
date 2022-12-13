@@ -5,8 +5,8 @@
     var year = Model.ExpensesBySubCategory.Categories.FirstOrDefault().MonthlyValues.FirstOrDefault().Year;
     ViewData["Title"] = $"YearlyExpenses - {year}";
 
-    var nextYear = year++;
-    var prevYear = year--;
+    var nextYear = year+1;
+    var prevYear = year-1;
 }
 
 <h1>Yearly Expenses</h1>
@@ -29,6 +29,7 @@
                     @Html.Raw(new DateTime(2010, i, 1).ToString("MMM", CultureInfo.InvariantCulture))
                 </th>
             }
+            <th>Total</th>
         </tr>
 
     </thead>
@@ -42,10 +43,16 @@
                 {
                     <td>
                         <b>
-                            @Html.Raw(category.MonthlyValues.FirstOrDefault(p=> p.Month == j)?.Amount ?? 0)
+                            @Html.Raw(String.Format("{0:C}",category.MonthlyValues.FirstOrDefault(p=> p.Month == j)?.Amount ?? 0))
                         </b>
                     </td>
                 }
+                @*Total by category*@
+                <td><b>
+                        @Html.Raw(String.Format("{0:C}",Model.ExpensesBySubCategory.Categories.Where(p=>p.CategoryName.Equals(category.CategoryName))
+                        .SelectMany(p=>p.MonthlyValues).Sum(a=>a.Amount)))
+                </b></td>
+
             </tr>
             foreach (var subcategory in category.SubCategoryList)
             {
@@ -54,9 +61,14 @@
                     @for (int j = 1; j <= 12; j++)
                     {
                         <td>
-                            @Html.Raw(subcategory.MonthlyValues.FirstOrDefault(p=> p.Month == j)?.Amount ?? 0)
+                            @Html.Raw(String.Format("{0:C}",subcategory.MonthlyValues.FirstOrDefault(p=> p.Month == j)?.Amount ?? 0))
                         </td>
                     }
+                <td><b>
+                        @Html.Raw(String.Format("{0:C}",Model.ExpensesBySubCategory.Categories
+                        .SelectMany(p=>p.SubCategoryList).Where(s=>s.SubCategoryName.Equals(subcategory.SubCategoryName))
+                        .SelectMany(s=>s.MonthlyValues).Sum(a=>a.Amount)))
+                </b></td>
                 </tr>
             }
         }
@@ -65,10 +77,17 @@
     <tfoot>
         <tr>
             <th class="">Total</th>
-            @foreach (var category in Model.ExpensesBySubCategory.Categories)
+            @for (int j = 1; j <= 12; j++)
             {
-
+                <td><b>
+                        @Html.Raw(String.Format("{0:C}",Model.ExpensesBySubCategory.Categories
+                        .SelectMany(p=>p.MonthlyValues).Where(p=>p.Month == j).Sum(a=>a.Amount)))
+                </b></td>
             }
+            <td><b>
+                @Html.Raw(String.Format("{0:C}",Model.ExpensesBySubCategory.Categories
+                    .SelectMany(p=>p.MonthlyValues).Sum(a=>a.Amount)))
+            </b></td>
         </tr>
     </tfoot>
 </table>

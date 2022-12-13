@@ -19,3 +19,4 @@ global using System.Globalization;
 global using System.Security.Claims;
 global using System.Text.Encodings.Web;
 global using System.Text;
+global using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;

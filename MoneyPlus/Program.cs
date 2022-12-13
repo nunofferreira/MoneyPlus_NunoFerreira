@@ -41,13 +41,13 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
-//var defaultCulture = new CultureInfo("pt-PT"); //TODO get cultureInfo from source running the program 
-//var localizationOptions = new RequestLocalizationOptions
-//{
-//    DefaultRequestCulture = new RequestCulture(defaultCulture),
-//    SupportedCultures = new List<CultureInfo> { defaultCulture },
-//    SupportedUICultures = new List<CultureInfo> { defaultCulture }
-//};
-//app.UseRequestLocalization(localizationOptions);
+var defaultCulture = new CultureInfo("pt-PT"); //TODO get cultureInfo from source running the program 
+var localizationOptions = new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture(defaultCulture),
+    SupportedCultures = new List<CultureInfo> { defaultCulture },
+    SupportedUICultures = new List<CultureInfo> { defaultCulture }
+};
+app.UseRequestLocalization(localizationOptions);
 app.Run();
 
