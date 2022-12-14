@@ -41,7 +41,7 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
-var defaultCulture = new CultureInfo("pt-PT"); //TODO get cultureInfo from source running the program 
+var defaultCulture = new CultureInfo("pt-PT"); 
 var localizationOptions = new RequestLocalizationOptions
 {
     DefaultRequestCulture = new RequestCulture(defaultCulture),
@@ -49,5 +49,6 @@ var localizationOptions = new RequestLocalizationOptions
     SupportedUICultures = new List<CultureInfo> { defaultCulture }
 };
 app.UseRequestLocalization(localizationOptions);
+
 app.Run();
 

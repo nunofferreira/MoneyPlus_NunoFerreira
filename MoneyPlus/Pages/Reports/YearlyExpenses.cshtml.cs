@@ -144,11 +144,6 @@ public class YearlyExpensesModel : PageModel
             }
 
             ExpensesBySubCategory.Categories = categoryValuesList;
-
-            //ExpensesBySubCategory.Categories.Where(p => p.MonthlyValues.Where(x => x.Month == 1).Sum(p => p.Amount));
-
-            var ex = ExpensesBySubCategory.Categories.Where(m => m.MonthlyValues != null).ToList();
-            
         }
     }
 }
