@@ -7,30 +7,20 @@ public class TotalExpensesByYear
 
 public class CategoryValueByYear
 {
-    public List<SubCategoryValueByYear> SubCategoryList { get; set; }
     public string CategoryName { get; set; }
-    public List<MonthlyValuesByYear> MonthlyValuesByYear { get; set; }
+    public List<YearlyValues> YearlyValues{ get; set; }
 }
 
-public class SubCategoryValueByYear
-{
-    public string SubCategoryName { get; set; }
-    public List<MonthlyValuesByYear> MonthlyValuesByYear { get; set; }
-}
-
-public class MonthlyValuesByYear
+public class YearlyValues
 {
     public int Amount { get; set; }
     public int Year { get; set; }
-    public int Month { get; set; }
 }
 public class CategoryFlatValueByYear
 {
-    public string SubCategoryName { get; set; }
     public string CategoryName { get; set; }
     public int Amount { get; set; }
     public int Year { get; set; }
-    public int Month { get; set; }
 }
 
 
@@ -48,17 +38,19 @@ public class TotalExpensesByYearModel : PageModel
 
     [BindProperty]
     public TotalExpensesByYear YearlyExpensesBySubCategory { get; set; } = default!;
-
+    public int? SelectedYear { get; set; }
     public async Task OnGetAsync(int? Year)
     {
         int year = Year ?? DateTime.Now.Year;
+        SelectedYear = year;
 
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         List<Expense> Expenses = null;
 
         if (_context.Expenses != null)
         {
-            Expenses = await _context.Expenses.Where(p => p.UserId == userId && p.Date.Year == year)
+            Expenses = await _context.Expenses.Where(p => p.UserId == userId
+            && (p.Date.Year >= year - 1 && p.Date.Year <= year + 1))
             .Include(s => s.CategoryType.Category)
             .Include(s => s.Payee)
             .Include(s => s.Transaction)
@@ -83,13 +75,11 @@ public class TotalExpensesByYearModel : PageModel
                 );
         }
 
-        var result = Expenses.GroupBy(p => new { p.Date.Month, subCategory = p.CategoryType?.Name ?? "- No Sub Category -", category = p.CategoryType?.Category?.Name ?? "- No Categories -" })
+        var result = Expenses.GroupBy(p => new { p.Date.Year, category = p.CategoryType?.Category?.Name ?? "- No Categories -" })
             .Select(s => new CategoryFlatValueByYear()
             {
-                Year = year,
-                Month = s.Key.Month,
+                Year = s.Key.Year,
                 CategoryName = s.Key.category,
-                SubCategoryName = s.Key.subCategory,
                 Amount = s.Sum(x => x.Amount)
             }).OrderBy(p => p.CategoryName).ToList();
 
@@ -97,51 +87,20 @@ public class TotalExpensesByYearModel : PageModel
         YearlyExpensesBySubCategory.Categories = new List<CategoryValueByYear>();
 
         var categoryValuesListByYear = result.GroupBy(c => new { c.CategoryName }).Select(p =>
-        new CategoryValueByYear() { CategoryName = p.Key.CategoryName, MonthlyValuesByYear = new List<MonthlyValuesByYear>() }).ToList();
+        new CategoryValueByYear() { CategoryName = p.Key.CategoryName, YearlyValues = new List<YearlyValues>() }).ToList();
 
         foreach (var category in categoryValuesListByYear)
         {
-            category.MonthlyValuesByYear.AddRange
-                (result.Where(p => p.CategoryName.Equals(category.CategoryName)).GroupBy(p => new { p.Month, p.Year })
-                .Select(a => new MonthlyValuesByYear()
+            category.YearlyValues.AddRange
+                (result.Where(p => p.CategoryName.Equals(category.CategoryName)).GroupBy(p => p.Year)
+                .Select(a => new YearlyValues()
                 {
-                    Month = a.Key.Month,
-                    Year = a.Key.Year,
+                    Year = a.Key,
                     Amount = a.Sum(x => x.Amount)
                 }).ToList());
-
         }
-        foreach (var newCategory in categoryValuesListByYear)
-        {
-            newCategory.SubCategoryList = new List<SubCategoryValueByYear>();
+        YearlyExpensesBySubCategory.Categories = categoryValuesListByYear;
 
-            foreach (var subCategories in result.Where(p => p.CategoryName.Equals(newCategory.CategoryName)))
-            {
-                var subCategory = newCategory.SubCategoryList.FirstOrDefault(p => p.SubCategoryName.Equals(subCategories.CategoryName));
-
-                if (subCategory == null)
-                {
-                    subCategory = new SubCategoryValueByYear()
-                    {
-                        SubCategoryName = subCategories.SubCategoryName
-                    };
-                    newCategory.SubCategoryList.Add(subCategory);
-                }
-
-                if (subCategory.MonthlyValuesByYear == null)
-                {
-                    subCategory.MonthlyValuesByYear = new List<MonthlyValuesByYear>();
-                }
-
-                subCategory.MonthlyValuesByYear.Add(new MonthlyValuesByYear()
-                {
-                    Amount = subCategories.Amount,
-                    Month = subCategories.Month,
-                    Year = subCategories.Year,
-                });
-            }
-
-            YearlyExpensesBySubCategory.Categories = categoryValuesListByYear;
-        }
     }
 }
+

@@ -1,23 +1,22 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
+﻿namespace MoneyPlus.Pages.Admin;
 
-namespace MoneyPlus.Areas.Identity.Pages.Account;
-
-public class RegisterModel : PageModel
+public class RegisterAdminModel : PageModel
 {
     private readonly SignInManager<IdentityUser> _signInManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
     private readonly UserManager<IdentityUser> _userManager;
     private readonly IUserStore<IdentityUser> _userStore;
     private readonly IUserEmailStore<IdentityUser> _emailStore;
-    private readonly ILogger<RegisterModel> _logger;
+    private readonly ILogger<RegisterAdminModel> _logger;
     private readonly IEmailSender _emailSender;
 
-    public RegisterModel(
+    public RegisterAdminModel(
         UserManager<IdentityUser> userManager,
         IUserStore<IdentityUser> userStore,
         SignInManager<IdentityUser> signInManager,
-        ILogger<RegisterModel> logger,
-        IEmailSender emailSender)
+        ILogger<RegisterAdminModel> logger,
+        IEmailSender emailSender,
+        RoleManager<IdentityRole> roleManager)
     {
         _userManager = userManager;
         _userStore = userStore;
@@ -25,6 +24,7 @@ public class RegisterModel : PageModel
         _signInManager = signInManager;
         _logger = logger;
         _emailSender = emailSender;
+        _roleManager = roleManager;
     }
 
     /// <summary>
@@ -81,7 +81,6 @@ public class RegisterModel : PageModel
         public string ConfirmPassword { get; set; }
     }
 
-
     public async Task OnGetAsync(string returnUrl = null)
     {
         ReturnUrl = returnUrl;
@@ -90,7 +89,7 @@ public class RegisterModel : PageModel
 
     public async Task<IActionResult> OnPostAsync(string returnUrl = null)
     {
-        returnUrl ??= Url.Content("~/");
+        returnUrl ??= Url.Content("/Identity/Account");
         ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         if (ModelState.IsValid)
         {
@@ -103,6 +102,14 @@ public class RegisterModel : PageModel
             if (result.Succeeded)
             {
                 _logger.LogInformation("User created a new account with password.");
+                if (!await _roleManager.RoleExistsAsync("Admin"))
+                {
+                    var role = new IdentityRole();
+                    role.Name = "Admin";
+                    await _roleManager.CreateAsync(role);
+                }
+
+                await _userManager.AddToRoleAsync(user, "Admin");
 
                 var userId = await _userManager.GetUserIdAsync(user);
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -118,7 +125,7 @@ public class RegisterModel : PageModel
 
                 if (_userManager.Options.SignIn.RequireConfirmedAccount)
                 {
-                    return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                    _signInManager.UserManager.Options.SignIn.RequireConfirmedAccount = false;
                 }
                 else
                 {

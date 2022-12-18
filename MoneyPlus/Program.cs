@@ -18,6 +18,15 @@ builder.Services.AddHostedService<EmailBackgroundService>();
 
 #endregion
 
+// Add MVC services to the services container
+builder.Services.AddControllersWithViews();
+
+// Add a policy that allows only administrators to access the pages
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -41,6 +50,10 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
+
+
+# region //Change CultureInfo to PT
+
 var defaultCulture = new CultureInfo("pt-PT"); 
 var localizationOptions = new RequestLocalizationOptions
 {
@@ -49,6 +62,8 @@ var localizationOptions = new RequestLocalizationOptions
     SupportedUICultures = new List<CultureInfo> { defaultCulture }
 };
 app.UseRequestLocalization(localizationOptions);
+
+# endregion
 
 app.Run();
 

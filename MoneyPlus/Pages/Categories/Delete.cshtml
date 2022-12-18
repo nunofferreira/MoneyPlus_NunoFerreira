@@ -7,8 +7,10 @@
 
 <h1>Delete</h1>
 
-@if (User.Identity.IsAuthenticated && User.IsInRole("Administrator"))
+@if (!User.Identity.IsAuthenticated && User.IsInRole("Admin"))
 {
+    Redirect("/BlockedPage");
+}
     <h3>Are you sure you want to delete this?</h3>
     <div>
         <h4>Category</h4>
@@ -28,10 +30,4 @@
             <a asp-page="./Index">Back to List</a>
         </form>
     </div>
-}
-else
-{
-    <div class="alert-danger">
-        <h1 class="display-5">Access Denied!</h1>
-    </div>
-}
+

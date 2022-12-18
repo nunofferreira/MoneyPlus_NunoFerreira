@@ -21,7 +21,7 @@ public class CategoriesBackgroundService : BackgroundService
         while (true)
         {
             await DoWorkAsync();
-
+            
             Debug.WriteLine(ctx.CategoryTypes.ToList());
 
             await Task.Delay(IntervalBeweenJobs);

@@ -5,7 +5,7 @@
     ViewData["Title"] = "Delete";
 }
 
-@if (User.Identity.IsAuthenticated && User.IsInRole("Administrator"))
+@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
 {
     <h1>Delete</h1>
 

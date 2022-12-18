@@ -3,7 +3,7 @@
 
 @{
     var year = Model.ExpensesBySubCategory.Categories.FirstOrDefault().MonthlyValues.FirstOrDefault().Year;
-    ViewData["Title"] = $"YearlyExpenses - {year}";
+    ViewData["Title"] = $"{year} - Yearly Expenses";
 
     var prevYear = year - 1;
     var nextYear = year + 1;

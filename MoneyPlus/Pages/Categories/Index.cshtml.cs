@@ -1,6 +1,5 @@
 ﻿namespace MoneyPlus.Pages.Categories;
 
-//[Authorize(Roles = "Admin")]
 public class IndexModel : PageModel
 {
     private readonly ApplicationDbContext _context;

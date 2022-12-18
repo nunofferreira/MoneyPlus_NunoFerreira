@@ -1,6 +1,5 @@
 ﻿namespace MoneyPlus.Pages.CategoryTypes;
 
-//TODO[Authorize(Roles = "Admin")]
 public class DetailsModel : PageModel
 {
     private readonly ApplicationDbContext _context;

@@ -1,6 +1,6 @@
 ﻿namespace MoneyPlus.Pages.Categories;
 
-//TODO[Authorize(Roles = "Admin")]
+[Authorize(Roles = "Admin")]
 public class DeleteModel : PageModel
 {
     private readonly ApplicationDbContext _context;

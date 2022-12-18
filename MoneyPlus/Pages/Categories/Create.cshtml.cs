@@ -1,6 +1,6 @@
 ﻿namespace MoneyPlus.Pages.Categories;
 
-//TODO[Authorize(Roles = "Admin")]
+[Authorize(Roles = "Admin")]
 public class CreateModel : PageModel
 {
     private readonly ApplicationDbContext _context;
@@ -33,8 +33,5 @@ public class CreateModel : PageModel
         await _context.SaveChangesAsync();
 
         return RedirectToPage("./Index");
-
-        //var expenses = await expRepo.FindByFilterAsync(new ExpensesFilter() { Asset = "Car" });
-        //expenses = await expRepo.FindByFilterAsync();
     }
 }
