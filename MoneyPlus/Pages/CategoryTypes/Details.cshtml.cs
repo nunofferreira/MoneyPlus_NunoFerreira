@@ -16,21 +16,16 @@ public class DetailsModel : PageModel
     public async Task<IActionResult> OnGetAsync(int? id)
     {
         if (id == null || _context.CategoryTypes == null)
-        {
-            return NotFound();
-        }
+        return NotFound();
 
         var categorytype = await _context.CategoryTypes.FirstOrDefaultAsync(m => m.Id == id);
         categorytype.Category = _context.Categories.FirstOrDefault(c => c.Id == categorytype.CategoryId);
 
         if (categorytype == null)
-        {
             return NotFound();
-        }
         else
-        {
             CategoryType = categorytype;
-        }
+
         return Page();
     }
 }

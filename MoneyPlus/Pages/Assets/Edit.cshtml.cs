@@ -22,7 +22,7 @@ public class EditModel : PageModel
             return NotFound();
         }
 
-        var asset =  await _context.Assets.FirstOrDefaultAsync(m => m.Id == id);
+        var asset = await _context.Assets.FirstOrDefaultAsync(m => m.Id == id);
         if (asset == null)
         {
             return NotFound();
@@ -31,8 +31,6 @@ public class EditModel : PageModel
         return Page();
     }
 
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see https://aka.ms/RazorPagesCRUD.
     public async Task<IActionResult> OnPostAsync()
     {
         if (!ModelState.IsValid)
@@ -63,6 +61,6 @@ public class EditModel : PageModel
 
     private bool AssetExists(int id)
     {
-      return _context.Assets.Any(e => e.Id == id);
+        return _context.Assets.Any(e => e.Id == id);
     }
 }

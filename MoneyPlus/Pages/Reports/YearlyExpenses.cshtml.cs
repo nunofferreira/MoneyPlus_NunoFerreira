@@ -130,10 +130,7 @@ public class YearlyExpensesModel : PageModel
                     newCategory.SubCategoryList.Add(subCategory);
                 }
 
-                if (subCategory.MonthlyValues == null)
-                {
-                    subCategory.MonthlyValues = new List<MonthlyValues>();
-                }
+                subCategory.MonthlyValues ??= new List<MonthlyValues>();
 
                 subCategory.MonthlyValues.Add(new MonthlyValues()
                 {

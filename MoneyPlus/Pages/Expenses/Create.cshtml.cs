@@ -44,7 +44,6 @@ public class CreateModel : PageModel
     [BindProperty]
     public Expense Expenses { get; set; }
 
-    // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
     public async Task<IActionResult> OnPostAsync()
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);

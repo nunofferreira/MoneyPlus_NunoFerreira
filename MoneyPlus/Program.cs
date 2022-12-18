@@ -50,11 +50,9 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
-
-
 # region //Change CultureInfo to PT
 
-var defaultCulture = new CultureInfo("pt-PT"); 
+var defaultCulture = new CultureInfo("pt-PT");
 var localizationOptions = new RequestLocalizationOptions
 {
     DefaultRequestCulture = new RequestCulture(defaultCulture),
@@ -66,4 +64,3 @@ app.UseRequestLocalization(localizationOptions);
 # endregion
 
 app.Run();
-

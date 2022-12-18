@@ -12,8 +12,6 @@ public class IndexModel : PageModel
         _ctx = ctx;
     }
 
-   
-
     public async Task OnGetAsync()
     {
         _logger.LogWarning($"Executing Index");

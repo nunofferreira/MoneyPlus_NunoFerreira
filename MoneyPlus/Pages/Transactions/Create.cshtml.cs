@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Query.Internal;
-
-namespace MoneyPlus.Pages.Transactions;
+﻿namespace MoneyPlus.Pages.Transactions;
 
 [Authorize]
 public class CreateModel : PageModel
@@ -24,8 +22,6 @@ public class CreateModel : PageModel
     [BindProperty]
     public Transaction Transaction { get; set; }
 
-
-    // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
     public async Task<IActionResult> OnPostAsync()
     {
         if (!ModelState.IsValid)
@@ -39,13 +35,13 @@ public class CreateModel : PageModel
             Wallet wallet = _context.Wallets.FirstOrDefault(x => x.Id == Transaction.WalletId);
             if (Transaction.Type == TransactionType.Credit)
             {
-
                 wallet.Balance += Transaction.Amount;
             }
             else
             {
                 wallet.Balance -= Transaction.Amount;
             }
+
             if (wallet.Balance < 0)
             {
                 throw new Exception("You have no balance");

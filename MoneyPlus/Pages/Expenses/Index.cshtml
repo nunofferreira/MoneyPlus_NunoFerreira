@@ -28,15 +28,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Expenses[0].Asset)
             </th>
-          @*  <th>
-                @Html.DisplayNameFor(model => model.Expenses[0].User)
-            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Expenses[0].Payee)
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.Expenses[0].TransactionId)
-            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Expenses[0].CategoryType)
             </th>
@@ -44,41 +38,36 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Expenses) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
+        @foreach (var item in Model.Expenses)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Amount)<i> €</i>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PaymentMethod)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Asset.Name)
-            </td>
-          @*  <td>
-                @Html.DisplayFor(modelItem => item.User.Email)
-            </td>*@
-            <td>
-                @Html.DisplayFor(modelItem => item.Payee.Name)
-            </td>
-          @*  <td>
-                @Html.DisplayFor(modelItem => item.Transaction.Id)
-            </td>*@
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryType.Name)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PaymentMethod)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Asset.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Payee.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryType.Name)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

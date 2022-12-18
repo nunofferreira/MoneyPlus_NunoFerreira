@@ -12,7 +12,7 @@ public class IndexModel : PageModel
         _logger = logger;
     }
 
-    public IList<Asset> Asset { get;set; } = default!;
+    public IList<Asset> Asset { get; set; } = default!;
 
     public async Task OnGetAsync()
     {

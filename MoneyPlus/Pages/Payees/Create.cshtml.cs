@@ -20,14 +20,15 @@ public class CreateModel : PageModel
     [BindProperty]
     public Payee Payee { get; set; }
 
-
-    // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
     public async Task<IActionResult> OnPostAsync()
     {
         if (!ModelState.IsValid)
         {
             return Page();
         }
+
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        Payee.UserId = userId;
 
         _context.Payees.Add(Payee);
         await _context.SaveChangesAsync();

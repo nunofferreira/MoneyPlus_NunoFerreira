@@ -9,7 +9,7 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<Transaction> Transactions { get; set; }
     public DbSet<Wallet> Wallets { get; set; }
     public DbSet<Asset> Assets { get; set; }
-
+    public DbSet<EmailMessage> EmailMessages { get; set; }
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {

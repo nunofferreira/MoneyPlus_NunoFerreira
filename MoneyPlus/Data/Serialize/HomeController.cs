@@ -2,31 +2,23 @@
 
 public class DataBase
 {
-    public List<Category> CategoryList { get; set; }
-    public List<CategoryType> SubCategoryList { get; }
+    public List<string> CategoryList { get; set; }
+    public List<string> SubCategoryList { get; set; }
 
     public DataBase()
     {
-        CategoryList = new List<Category>();
-        SubCategoryList = new List<CategoryType>();
+        CategoryList = new List<string>();
+        SubCategoryList = new List<string>();
     }
 
-    //private static string GetPath()
-    //{
-    //    string path = Environment.CurrentDirectory.Replace(Path.GetRelativePath("../../..", Environment.CurrentDirectory), "");
-    //    path = Path.Combine(path, "Categories/", "Categories.yaml");
-
-    //    return path;
-    //}
-
-    public void Serialize()
+    public void Serialize(string filename)
     {
-        var DataBase = new DataBase();
-
         var serializer = new SerializerBuilder()
             .WithNamingConvention(CamelCaseNamingConvention.Instance)
             .Build();
 
-        var stringResult = serializer.Serialize(DataBase);
+        var stringResult = serializer.Serialize(this);
+
+        File.WriteAllText(filename, stringResult);
     }
 }

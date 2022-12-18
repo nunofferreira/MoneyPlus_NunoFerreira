@@ -20,7 +20,8 @@ public class IndexModel : PageModel
 
         if (_context.Payees != null)
         {
-            Payee = await _context.Payees.ToListAsync();
+            Payee = await _context.Payees
+                .Where(p => p.UserId == userId).ToListAsync();
         }
     }
 }

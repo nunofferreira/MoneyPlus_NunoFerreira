@@ -22,18 +22,16 @@ public class EditModel : PageModel
             return NotFound();
         }
 
-        var categorytype =  await _context.CategoryTypes.FirstOrDefaultAsync(m => m.Id == id);
+        var categorytype = await _context.CategoryTypes.FirstOrDefaultAsync(m => m.Id == id);
         if (categorytype == null)
         {
             return NotFound();
         }
         CategoryType = categorytype;
-       ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
+        ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
         return Page();
     }
 
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see https://aka.ms/RazorPagesCRUD.
     public async Task<IActionResult> OnPostAsync()
     {
         if (!ModelState.IsValid)
@@ -64,6 +62,6 @@ public class EditModel : PageModel
 
     private bool CategoryTypeExists(int id)
     {
-      return _context.CategoryTypes.Any(e => e.Id == id);
+        return _context.CategoryTypes.Any(e => e.Id == id);
     }
 }

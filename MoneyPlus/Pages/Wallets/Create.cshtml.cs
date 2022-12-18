@@ -20,8 +20,6 @@ public class CreateModel : PageModel
     [BindProperty]
     public Wallet Wallet { get; set; }
 
-
-    // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
     public async Task<IActionResult> OnPostAsync()
     {
         if (!ModelState.IsValid)

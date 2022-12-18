@@ -66,8 +66,7 @@ public class MonthlyExpensesModel : PageModel
                     CategoryType = new CategoryType() { Name = "" },
                     Payee = new Payee() { Name = "" },
                     Asset = new Asset() { Name = "" }
-                }
-                );
+                });
         }
 
         AgregatedExpensesByCategory =
@@ -81,5 +80,5 @@ public class MonthlyExpensesModel : PageModel
         AgregatedExpensesByAsset =
             Expenses.GroupBy(p => p.Asset?.Name ?? " - No Asset - ").
             Select(a => new Reports.AgregatedExpensesByAsset() { Asset = a.Key, TotalAmount = a.Sum(t => t.Amount) }).ToList();
-        }
+    }
 }

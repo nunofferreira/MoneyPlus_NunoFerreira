@@ -13,7 +13,7 @@ public class DeleteModel : PageModel
     }
 
     [BindProperty]
-  public Category Category { get; set; }
+    public Category Category { get; set; }
 
     public async Task<IActionResult> OnGetAsync(int? id)
     {
@@ -28,7 +28,7 @@ public class DeleteModel : PageModel
         {
             return NotFound();
         }
-        else 
+        else
         {
             Category = category;
         }

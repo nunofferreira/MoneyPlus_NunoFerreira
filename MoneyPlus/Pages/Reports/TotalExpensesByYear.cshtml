@@ -2,9 +2,9 @@
 @model MoneyPlus.Pages.Reports.TotalExpensesByYearModel
 
 @{
-    var year = Model.SelectedYear.HasValue ? Model.SelectedYear.Value:DateTime.Now.Year;
+    var year = Model.SelectedYear.HasValue ? Model.SelectedYear.Value : DateTime.Now.Year;
 
-    ViewData["Title"] = $"{year-1}/{year+1} - Total Expenses By Year";
+    ViewData["Title"] = $"{year - 1}/{year + 1} - Total Expenses By Year";
 
     var prevYear = year - 1;
     var nextYear = year + 1;
@@ -39,13 +39,10 @@
         {
             <tr>
                 <td> <b>@Html.DisplayFor(modelItem => category.CategoryName)</b></td>
-                @for (int j = year-1; j <= year + 1; j++)
+                @for (int j = year - 1; j <= year + 1; j++)
                 {
                     <td>
                         <b>
-                           @* @Html.Raw(String.Format("{0:C}",Model.YearlyExpensesBySubCategory.Categories.Where(p=>p.CategoryName.Equals(category.CategoryName))
-                    .SelectMany(p=>p.MonthlyValuesByYear).Sum(a=>a.Amount)))*@
-
                             @Html.Raw(String.Format("{0:C}", category.YearlyValues.FirstOrDefault(p=> p.Year == j)?.Amount ?? 0))
                         </b>
                     </td>

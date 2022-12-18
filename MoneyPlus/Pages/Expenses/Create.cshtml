@@ -44,11 +44,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="Expenses.PayeeId" class="control-label">Payee</label>
-                <select asp-for="Expenses.PayeeId" class ="form-control" asp-items="ViewBag.PayeeId"></select>
+                <select asp-for="Expenses.PayeeId" class="form-control" asp-items="ViewBag.PayeeId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Expenses.CategoryTypeId" class="control-label">Category</label>
-                <select asp-for="Expenses.CategoryTypeId" class ="form-control" asp-items="ViewBag.CategoryTypeId"></select>
+                <select asp-for="Expenses.CategoryTypeId" class="form-control" asp-items="ViewBag.CategoryTypeId"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -62,5 +62,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

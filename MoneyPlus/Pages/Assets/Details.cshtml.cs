@@ -12,7 +12,7 @@ public class DetailsModel : PageModel
         _logger = logger;
     }
 
-  public Asset Asset { get; set; }
+    public Asset Asset { get; set; }
 
     public async Task<IActionResult> OnGetAsync(int? id)
     {
@@ -26,7 +26,7 @@ public class DetailsModel : PageModel
         {
             return NotFound();
         }
-        else 
+        else
         {
             Asset = asset;
         }

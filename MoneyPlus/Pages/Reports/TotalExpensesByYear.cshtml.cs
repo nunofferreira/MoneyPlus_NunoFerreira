@@ -8,7 +8,7 @@ public class TotalExpensesByYear
 public class CategoryValueByYear
 {
     public string CategoryName { get; set; }
-    public List<YearlyValues> YearlyValues{ get; set; }
+    public List<YearlyValues> YearlyValues { get; set; }
 }
 
 public class YearlyValues
@@ -22,7 +22,6 @@ public class CategoryFlatValueByYear
     public int Amount { get; set; }
     public int Year { get; set; }
 }
-
 
 [Authorize]
 public class TotalExpensesByYearModel : PageModel
@@ -71,8 +70,7 @@ public class TotalExpensesByYearModel : PageModel
                     CategoryType = new CategoryType() { Name = "" },
                     Payee = new Payee() { Name = "" },
                     Asset = new Asset() { Name = "" }
-                }
-                );
+                });
         }
 
         var result = Expenses.GroupBy(p => new { p.Date.Year, category = p.CategoryType?.Category?.Name ?? "- No Categories -" })
@@ -100,7 +98,5 @@ public class TotalExpensesByYearModel : PageModel
                 }).ToList());
         }
         YearlyExpensesBySubCategory.Categories = categoryValuesListByYear;
-
     }
 }
-

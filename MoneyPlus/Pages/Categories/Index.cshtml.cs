@@ -11,7 +11,7 @@ public class IndexModel : PageModel
         _logger = logger;
     }
 
-    public IList<Category> Category { get;set; } = default!;
+    public IList<Category> Category { get; set; } = default!;
 
     public async Task OnGetAsync()
     {
